@@ -1,8 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const config = require("../config")
-const imageCompress = require("./imageCompress")
-
+const fs = require("fs");
+const path = require("path");
+const config = require("../config");
 
 /**
  * 获取目录中所有指定格式的 JPG 文件，不包括 people 文件夹下的图片。
@@ -10,7 +8,7 @@ const imageCompress = require("./imageCompress")
  * @param {string} format - 要搜索的文件格式，默认为 'jpg'。
  * @returns {Array<string>} - 返回一个包含所有 JPG 文件路径的数组。
  */
-async function getAllJpgFilesInDir(directory, format = ['.jpg', '.jpeg']) {
+async function getAllJpgFilesInDir(directory, format = [".jpg", ".jpeg"]) {
     const imgList = [];
 
     // 读取目录中的所有文件
@@ -18,7 +16,7 @@ async function getAllJpgFilesInDir(directory, format = ['.jpg', '.jpeg']) {
 
     // 遍历目录中的所有文件
     for (const file of files) {
-        const filePath = path.join(directory, file).replace(/\\/g, '/'); // 获取文件的完整路径
+        const filePath = path.join(directory, file).replace(/\\/g, "/"); // 获取文件的完整路径
         const stats = await fs.promises.stat(filePath); // 获取文件信息
 
         // 如果是目录，则递归获取该目录下的 JPG 文件
@@ -38,6 +36,4 @@ async function getAllJpgFilesInDir(directory, format = ['.jpg', '.jpeg']) {
     return imgList; // 返回所有 JPG 文件的路径列表
 }
 
-
-
-module.exports = getAllJpgFilesInDir
+module.exports = getAllJpgFilesInDir;

@@ -98,19 +98,9 @@ htmlcov/
 # 图片 / 视频（assets 下的除外）
 ##################################################
 # 忽略所有图片和视频文件
-*.png
 *.jpg
 *.jpeg
 *.JPEG
-*.gif
-*.bmp
-*.svg
-*.webp
-*.mp4
-*.mov
-*.avi
-*.mkv
-*.webm
 
 # assets 文件夹下的图片视频要参与 git
 !assets/**/*.png

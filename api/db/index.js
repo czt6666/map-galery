@@ -1,8 +1,8 @@
-const mysql = require('mysql');
-const config = require('../config');
+const mysql = require("mysql2");
+const config = require("../config");
 
-let user = 'root';
-let password = '123456';
+let user = "root";
+let password = "123456";
 
 if (config.COMPUTER) {
     user = config.mysql_user;
@@ -10,10 +10,10 @@ if (config.COMPUTER) {
 }
 
 const db = mysql.createPool({
-    host: '127.0.0.1',
+    host: "127.0.0.1",
     user: user,
     password: password,
     database: config.database,
 });
 
-module.exports = db
+module.exports = db;
