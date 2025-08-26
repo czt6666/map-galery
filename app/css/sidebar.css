@@ -1,0 +1,255 @@
+/* 侧边栏 */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 70px;
+    height: 100vh;
+    background-color: #f0f4f9;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    z-index: 2;
+    padding: 0 var(--nav-padding-mid);
+    transition: width var(--animation-timebtn-mid);
+}
+
+.sidebar.active {
+    width: 40%;
+}
+
+.sidebar.full {
+    width: 80%;
+}
+
+/* 头部控制栏 */
+.top-ctrl {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sidebtn {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 15px 0 0 9px;
+    border-radius: 1000px;
+    background-size: 16px 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.sidebtn b {
+    position: absolute;
+    display: none;
+    top: 45px;
+    left: 20px;
+    transform: translateX(-50%);
+    height: 25px;
+    line-height: 25px;
+    padding: 0 5px;
+    white-space: nowrap;
+    text-align: center;
+    font-weight: normal;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #3c4043;
+    z-index: 10;
+}
+
+.menubtn {
+    background-image: url('../img/menu.svg');
+}
+
+.active .menubtn,
+.full .menubtn {
+    background-image: url('../img/close.svg');
+}
+
+.fullbtn {
+    display: none;
+    background-image: url('../img/full.svg');
+}
+
+.full .fullbtn {
+    background-image: url('../img/srink.svg');
+}
+
+.active .fullbtn,
+.full .fullbtn {
+    display: block;
+}
+
+.hover:hover b {
+    display: block;
+}
+
+/* 隐藏内容区 */
+.hid-cont {
+    display: none;
+}
+
+.active .hid-cont,
+.full .hid-cont {
+    display: block;
+}
+
+/* 中部导航栏 */
+.mid-nav {
+    width: 100%;
+}
+
+.nav-cont {
+    display: flex;
+    flex-grow: var(--nav-padding-mid);
+    width: 100%;
+    height: 40px;
+}
+
+.navbtn {
+    position: relative;
+    flex: 1;
+    height: 40px;
+    line-height: 40px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* 导航图标默认 */
+.timebtn {
+    background-color: var(--imgcont-defult-color);
+    z-index: 5;
+}
+
+.locationbtn {
+    background-color: var(--imgcont-defult-color);
+    z-index: 5;
+}
+
+.timebtn::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 20px;
+    height: 25px;
+    top: 15px;
+    right: -20px;
+    background: radial-gradient(ellipse farthest-side at 100% 0,
+            transparent 100%,
+            var(--imgcont-defult-color) 0%);
+    z-index: 5;
+}
+
+.locationbtn::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 20px;
+    height: 25px;
+    top: 15px;
+    left: -20px;
+    background: radial-gradient(ellipse farthest-side at 0 0,
+            transparent 100%,
+            var(--imgcont-defult-color) 0%);
+    z-index: 5;
+}
+
+
+/* 导航图标被选中 */
+.nav-cont .locationbtn.active::after {
+    background: radial-gradient(ellipse farthest-side at 0 0,
+            transparent 100%,
+            var(--imgcont-active-color) 0%);
+    z-index: 7;
+}
+
+.nav-cont .timebtn.active::after {
+    background: radial-gradient(ellipse farthest-side at 100% 0,
+            transparent 100%,
+            var(--imgcont-active-color) 0%);
+    z-index: 7;
+}
+
+.nav-cont .active {
+    background-color: var(--imgcont-active-color);
+    z-index: 7;
+}
+
+
+/* 底部内容区 */
+.btm-cont {
+    width: 100%;
+    height: 0;
+    flex: 1;
+    background-color: var(--imgcont-active-color);
+}
+
+/* 城市全部信息 */
+.city-list {
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+}
+
+.city-list>li {
+    margin-bottom: var(--nav-padding-mid);
+}
+
+.city-list .info {
+    padding-left: var(--nav-padding-mid);
+}
+
+.city-list>li {
+    overflow: hidden;
+    width: 100%;
+}
+
+/* 图片全部信息 */
+.imgs-list {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: var(--nav-padding-mid);
+}
+
+.full .imgs-list {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.imgs-list>li {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+}
+
+.imgs-list>li img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 展示更多按钮 */
+.imgs-list>li:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #999;
+    color: #fff;
+    border: none;
+    border: 2px dashed #555;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.imgs-list>li:last-child:hover {
+    background-color: #555;
+}
+
+.hover:hover {
+    background-color: #e9edf2;
+}

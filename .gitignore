@@ -1,0 +1,150 @@
+##################################################
+# 系统临时文件
+##################################################
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
+
+##################################################
+# 编辑器
+##################################################
+# VSCode
+.vscode/
+*.code-workspace
+
+# JetBrains (IntelliJ IDEA, WebStorm, PyCharm, etc.)
+.idea/
+*.iml
+out/
+
+##################################################
+# Node.js / 前端
+##################################################
+node_modules/
+bower_components/
+jspm_packages/
+.npm/
+.eslintcache
+.stylelintcache
+.next/
+.nuxt/
+dist/
+build/
+.cache/
+.tmp/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+##################################################
+# Python
+##################################################
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+.mypy_cache/
+.pytest_cache/
+.pyre/
+.coverage
+coverage.xml
+htmlcov/
+
+##################################################
+# C / C++
+##################################################
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+*.a
+*.lib
+*.lo
+*.la
+*.idb
+*.pdb
+
+##################################################
+# 数据库文件
+##################################################
+*.sqlite
+*.sqlite3
+*.db
+*.db3
+*.sql
+*.bak
+
+##################################################
+# 图片 / 视频（assets 下的除外）
+##################################################
+# 忽略所有图片和视频文件
+*.png
+*.jpg
+*.jpeg
+*.JPEG
+*.gif
+*.bmp
+*.svg
+*.webp
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+
+# assets 文件夹下的图片视频要参与 git
+!assets/**/*.png
+!assets/**/*.jpg
+!assets/**/*.jpeg
+!assets/**/*.gif
+!assets/**/*.bmp
+!assets/**/*.svg
+!assets/**/*.webp
+!assets/**/*.mp4
+!assets/**/*.mov
+!assets/**/*.avi
+!assets/**/*.mkv
+!assets/**/*.webm
+
+##################################################
+# 压缩文件
+##################################################
+*.zip
+*.tar
+*.gz
+*.tgz
+*.7z
+*.rar
+*.bz2
+
+# === Blacklist: 永远不进 git ===
+private_docs/
+tmp/
+scripts/test/
+YunShan/
+Edgenesis/
+
+
+# === Whitelist: 必须进入 git ===
+!keep_this_folder/
+!important_config.json

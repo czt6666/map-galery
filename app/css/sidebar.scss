@@ -1,0 +1,326 @@
+// 侧边栏
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 70px;
+    height: 100vh;
+    background-color: #f0f4f9;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    z-index: 200;
+    padding: 0 var(--nav-padding-mid);
+    transition: width var(--animation-timebtn-mid);
+
+    /* 头部控制栏 */
+    .top-ctrl {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        .sidebtn {
+            position: relative;
+            display: block;
+            width: 40px;
+            height: 40px;
+            margin: 15px 0 0 9px;
+            border-radius: 1000px;
+            background-size: 16px 16px;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+
+            b {
+                position: absolute;
+                display: none;
+                top: 45px;
+                left: 20px;
+                transform: translateX(-50%);
+                height: 25px;
+                line-height: 25px;
+                padding: 0 5px;
+                white-space: nowrap;
+                text-align: center;
+                font-weight: normal;
+                color: #fff;
+                border-radius: 5px;
+                background-color: #3c4043;
+                z-index: 210;
+            }
+        }
+
+        // 按钮bg
+        .fullbtn {
+            display: none;
+            background-image: url("../../img/full.svg");
+        }
+        .menubtn {
+            background-image: url("../../img/menu.svg");
+        }
+
+        // 鼠标悬浮
+        .hover:hover {
+            background-color: #e9edf2;
+        }
+        .hover:hover b {
+            display: block;
+        }
+    }
+
+    /* 中部下部被隐藏 */
+    .hid-cont {
+        display: none;
+    }
+
+    /* 中部导航栏 */
+    .mid-nav {
+        width: 100%;
+
+        .nav-cont {
+            display: flex;
+            flex-grow: var(--nav-padding-mid);
+            width: 100%;
+            height: 40px;
+
+            /* 导航图标默认 */
+            .navbtn {
+                position: relative;
+                flex: 1;
+                height: 40px;
+                line-height: 40px;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                text-align: center;
+                font-size: 18px;
+                cursor: pointer;
+                z-index: 5;
+            }
+            .navbtn::after {
+                position: absolute;
+                display: block;
+                content: "";
+                width: 20px;
+                height: 25px;
+                top: 15px;
+                z-index: 5;
+            }
+
+            // 导航图标个性
+            .timebtn {
+                background-color: var(--imgcont-defult-color);
+            }
+            .locationbtn {
+                background-color: var(--imgcont-defult-color);
+            }
+
+            // 导航图标反圆角
+            .timebtn::after {
+                right: -20px;
+                background: radial-gradient(
+                    ellipse farthest-side at 100% 0,
+                    transparent 100%,
+                    var(--imgcont-defult-color) 0%
+                );
+            }
+            .locationbtn::after {
+                left: -20px;
+                background: radial-gradient(
+                    ellipse farthest-side at 0 0,
+                    transparent 100%,
+                    var(--imgcont-defult-color) 0%
+                );
+            }
+
+            /* 导航图标被选中 */
+            .locationbtn.active::after {
+                background: radial-gradient(
+                    ellipse farthest-side at 0 0,
+                    transparent 100%,
+                    var(--imgcont-active-color) 0%
+                );
+                z-index: 7;
+            }
+            .timebtn.active::after {
+                background: radial-gradient(
+                    ellipse farthest-side at 100% 0,
+                    transparent 100%,
+                    var(--imgcont-active-color) 0%
+                );
+                z-index: 7;
+            }
+            .active {
+                background-color: var(--imgcont-active-color);
+                z-index: 7;
+            }
+        }
+    }
+
+    /* 底部内容区 */
+    .btm-cont {
+        width: 100%;
+        height: 0;
+        flex: 1;
+        background-color: var(--imgcont-active-color);
+        /* 城市全部信息 */
+        .city-list {
+            overflow-y: auto;
+            width: 100%;
+            height: 100%;
+            font-size: 16px;
+
+            // 城市-item
+            > li {
+                overflow: hidden;
+                width: 100%;
+                margin-bottom: var(--nav-padding-mid);
+            }
+            .info {
+                padding-left: var(--nav-padding-mid);
+            }
+            .imgs-list {
+                display: grid;
+                width: 100%;
+                grid-template-columns: repeat(3, 1fr);
+                grid-gap: var(--nav-padding-mid);
+
+                // 图片框
+                > li {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1/1;
+                }
+                > li img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                /* 展示更多按钮 */
+                > li:last-child {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #999;
+                    color: #fff;
+                    border: none;
+                    border: 2px dashed #555;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                }
+                > li:last-child:hover {
+                    background-color: #555;
+                }
+            }
+        }
+    }
+
+    // 半屏响应式
+    &.active {
+        width: 40%;
+
+        .menubtn {
+            background-image: url("../../img/close.svg");
+        }
+        .fullbtn {
+            display: block;
+        }
+        .hid-cont {
+            display: block;
+        }
+    }
+
+    // 全屏响应式
+    &.full {
+        width: 80%;
+
+        .menubtn {
+            background-image: url("../../img/close.svg");
+        }
+        .fullbtn {
+            display: block;
+            background-image: url("../../img/srink.svg");
+        }
+        .hid-cont {
+            display: block;
+        }
+        .city-list {
+            .imgs-list {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    }
+}
+
+// .m 提权值
+.sidebar.msidebar {
+    @media only screen and (max-width: 939px) {
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 70px;
+        padding: 0;
+
+        .top-ctrl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            width: auto;
+            height: 70px;
+            z-index: 299;
+
+            .menubtn {
+                background-color: #f0f4f9;
+                transition: all var(--animation-timebtn-mid);
+            }
+            .sidebtn b {
+                visibility: hidden;
+            }
+            .fullbtn {
+                visibility: hidden;
+            }
+        }
+
+        .hid-cont {
+            display: block;
+        }
+
+        .mid-nav {
+            display: block;
+            width: 100%;
+            height: calc(40px + 70px);
+            padding-top: 70px;
+            transform: translateX(-100%);
+            transition: transform var(--animation-timebtn-mid);
+            background-color: #a6a8ab;
+        }
+
+        .btm-cont {
+            display: block;
+            width: 100%;
+            height: calc(100vh - 40px - 70px);
+            transform: translateX(-100%);
+            transition: transform var(--animation-timebtn-mid);
+
+            .city-list {
+                padding: var(--nav-padding-mid);
+                .imgs-list {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+            }
+        }
+
+        &.active {
+            .menubtn {
+                background-color: #e9edf2;
+            }
+            .mid-nav {
+                transform: translateX(0%);
+            }
+            .btm-cont {
+                transform: translateX(0%);
+            }
+        }
+    }
+}
