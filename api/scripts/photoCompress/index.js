@@ -1,11 +1,11 @@
-const scanFolderImages = require("./src/scanFolderImages");
-const imageCompress = require("./src/imageCompress");
-const getExifInfo = require("./src/getExifInfo");
-const getLocationData = require("./src/getLocation");
-const wrightCSV = require("./src/wrightCSV");
-const wrightJSON = require("./src/wrightJSON");
-const { populateKeyValue, toChinese } = require("./src/objectUtils");
-const wrightMysql = require("./src/wrightMysql");
+const scanFolderImages = require("./scanFolderImages");
+const imageCompress = require("./imageCompress");
+const getExifInfo = require("./getExifInfo");
+const getLocationData = require("./getLocation");
+const wrightCSV = require("./wrightCSV");
+const wrightJSON = require("./wrightJSON");
+const { populateKeyValue, toChinese } = require("./objectUtils");
+const wrightMysql = require("./wrightMysql");
 
 let JSON = [];
 
@@ -83,31 +83,7 @@ async function main(config) {
     return true;
 }
 
-// 顺序执行经纬度解析
-async function classifyLocationGeo(JSON) {
-    // 所有地址请求成功时返回
-    return new Promise((resolve) => {
-        // 递归调用promise 保证照片顺序查找
-        JSON.reduce((previousPromise, item, i) => {
-            // 在前一个Promise.then方法中调用下一个函数
-            return previousPromise.then(() =>
-                getLocationData(item).then((locationData) => {
-                    JSON[i] = { ...JSON[i], ...locationData };
-                })
-            );
-        }, Promise.resolve())
-            .then(() => {
-                console.log("===所有地理位置已获取===");
-                resolve(JSON);
-            })
-            .catch((error) => {
-                console.error("===地理位置获取失败===", error);
-                resolve(JSON);
-            });
-    });
-}
-
-function photoCompress(inputPath, projectName) {
+async function photoCompress(inputPath, projectName) {
     const config2 = {
         inputPath,
         projectName, // 不能包含短横线
@@ -116,7 +92,7 @@ function photoCompress(inputPath, projectName) {
         mysqlTableName: "tb_" + projectName, // MySQL表名
     };
 
-    main(config2);
+    return await main(config2);
 }
 
 photoCompress("D:\\阿巴阿巴\\照片\\2025.08内蒙\\0-后期\\星空", "pojName_1");

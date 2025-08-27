@@ -7,7 +7,7 @@
 const sharp = require("sharp"); // 用于图像处理
 const path = require("path"); // 用于处理文件路径
 const fs = require("fs"); // 用于文件系统操作
-const config = require("../config");
+const config = require("../../config");
 
 // 压缩图片的函数
 async function imageCompress(imagePath, outputFile, inputPath) {

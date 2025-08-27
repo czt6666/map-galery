@@ -1,5 +1,5 @@
 const axios = require("axios");
-const config = require("../config");
+const config = require("../../config");
 
 /**
  * 从指定的 URL 获取数据

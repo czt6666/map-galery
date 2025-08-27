@@ -1,8 +1,4 @@
-const mysql = require("mysql2");
-const { mysqlConfig } = require("../config");
-
-// 创建数据库连接
-const db = mysql.createConnection(mysqlConfig);
+const db = require("../../src/db");
 
 // 创建表并插入数据的函数
 function createTableAndInsertData(jsonData, tableName) {

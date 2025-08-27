@@ -1,5 +1,4 @@
-const fs = require('fs').promises;
-
+const fs = require("fs").promises;
 
 /**
  * 从 JSON 数据生成 CSV 文件
@@ -10,15 +9,15 @@ const fs = require('fs').promises;
 async function generateCSV(jsonData, filePath) {
     try {
         // 使用 Papaparse 将 JSON 数据转换为 CSV 格式
-        const csv = "\uFEFF" + jsonToCSV(jsonData)
+        const csv = "\uFEFF" + jsonToCSV(jsonData);
 
         // 将 CSV 数据写入文件
-        await fs.writeFile(filePath, csv, 'utf-8');
+        await fs.writeFile(filePath, csv, "utf-8");
 
-        console.log('CSV 文件写入成功');
+        console.log("CSV 文件写入成功");
         return true;
     } catch (error) {
-        console.error('写入 CSV 文件时出错:', error);
+        console.error("写入 CSV 文件时出错:", error);
         return false;
     }
 }
@@ -27,18 +26,17 @@ async function generateCSV(jsonData, filePath) {
 const jsonToCSV = (json) => {
     // 如果 json 为 undefined 或 null，则返回空字符串
     if (!json) {
-        return '';
+        return "";
     }
 
     // 确保 json 是一个数组，并且至少包含一个对象
     if (!Array.isArray(json) || json.length === 0) {
-        return '';
+        return "";
     }
 
-    const header = Object.keys(json[0]).join(',') + '\n';
-    const rows = json.map(obj => Object.values(obj).join(',')).join('\n');
+    const header = Object.keys(json[0]).join(",") + "\n";
+    const rows = json.map((obj) => Object.values(obj).join(",")).join("\n");
     return header + rows;
 };
 
-
-module.exports = generateCSV
+module.exports = generateCSV;

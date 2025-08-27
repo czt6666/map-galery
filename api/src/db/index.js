@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const config = require("../config");
+const config = require("../../config");
 
 let user = "root";
 let password = "123456";

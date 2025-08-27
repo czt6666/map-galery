@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const config = require("../config");
 
 /**
  * 获取目录中所有指定格式的 JPG 文件，不包括 people 文件夹下的图片。
@@ -22,7 +21,7 @@ async function getAllJpgFilesInDir(directory, format = [".jpg", ".jpeg"]) {
         // 如果是目录，则递归获取该目录下的 JPG 文件
         if (stats.isDirectory()) {
             // 排除  文件夹下的图片
-            if (!config.excludeFolder.includes(file.toLowerCase())) {
+            if (!["people", "them", "themb"].includes(file.toLowerCase())) {
                 const subImgList = await getAllJpgFilesInDir(filePath, format); // 递归调用自身
                 imgList.push(...subImgList); // 将子目录中的 JPG 文件路径合并到主列表中
             }
