@@ -2,16 +2,17 @@ const express = require("express");
 const router = express.Router();
 const db = require("./util/queryDataBase");
 const util = require("./util/index");
+const config = require("../config");
 const { photoCompress } = require("../scripts/photoCompress");
 
 // 获取数据接口（示例）
 router.get("/geturldata", async (req, res) => {
     const { database } = req.query;
-    const tableNames = util.normalizeTableNames(database);
+    const tableNames = await util.normalizeTableNames(database);
     const data = await db.queryMutData(tableNames);
     const result = data.map((item) => ({
         gps: [Number(item.longitude), Number(item.latitude)],
-        imgSrc: item.relativePath,
+        imgSrc: `http://${config.HOST}:${config.PORT}/upload/${item.relativePath}`,
         fileSize: item.fileSize,
         shotDate: item.shotDate,
         shotTime: item.shotTime,

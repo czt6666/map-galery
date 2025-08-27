@@ -7,6 +7,8 @@ if (config.redis.use) {
 }
 
 async function queryMutData(tableNames) {
+    console.log("Querying tables:", tableNames);
+
     if (!tableNames || tableNames.length === 0) {
         return [];
     }

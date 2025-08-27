@@ -3,8 +3,9 @@ const COMPUTER = 0;
 
 const config = {
     COMPUTER,
-    version: "0.1.5",
+    version: "0.2.0",
     PORT: 7105,
+    HOST: "127.0.0.1",
     redis: {
         use: false,
         host: "127.0.0.1",
@@ -12,25 +13,6 @@ const config = {
         password: "",
         db: 0,
     },
-    // 数据表名
-    tableNames: [
-        "36guangxi",
-        "36xinjiang",
-        "36chongqing",
-        "37chunjie",
-        "37hangzhou",
-        "37yytyinghua",
-        "37xiaoyuanqiujing",
-        "37bulaotun",
-        "37beihaixue",
-        "37jinguangcd",
-        "37taoyuanxiangu",
-        "37lizesoho",
-        "37guixiaoshi",
-        "37beilizaochun",
-        "37beilichunxue",
-        "55xidayang",
-    ],
     // imageCompress
     watermark: {
         checkAdd: true, // 是否添加水印

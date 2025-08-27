@@ -1,9 +1,9 @@
 const db = require("../db");
-const validTableNames = getTbTables();
 
 async function normalizeTableNames(database) {
     // 获取当前数据库下所有 tb 开头的表名
     const validTableNames = await getTbTables();
+    console.log("Valid table names:", validTableNames);
 
     let tableNames = database;
     if (!Array.isArray(database)) {
@@ -22,21 +22,16 @@ async function normalizeTableNames(database) {
 }
 
 async function getTbTables() {
-    // 获取当前数据库名
-    const [rowsDb] = await db.query("SELECT DATABASE() AS dbName");
-    const dbName = rowsDb[0].dbName;
-
     // 查询所有 tb 开头的表
-    const [tables] = await db.query(
+    const [tables] = await db.promise().query(
         `SELECT table_name 
          FROM information_schema.tables 
-         WHERE table_schema = ? 
-           AND table_name LIKE 'tb%'`,
-        [dbName]
+         WHERE table_schema = 'map_gallery' 
+           AND table_name LIKE 'tb%'`
     );
 
     // 返回 table_name 数组
-    return tables.map((row) => row.table_name);
+    return tables.map((row) => row.TABLE_NAME);
 }
 
 module.exports = {

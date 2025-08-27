@@ -15,6 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/upload", express.static(path.join(__dirname, "./upload")));
 
 // 权限校验中间件（在路由之前）
 app.use(authMiddleware);
