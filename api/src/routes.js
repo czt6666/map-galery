@@ -28,9 +28,22 @@ router.get("/admin/upload", async (req, res) => {
     const { filePath, projectName } = req.query;
     console.log("上传文件信息:", { filePath, projectName });
 
-    // await photoCompress(filePath, projectName);
-    // 处理文件上传逻辑
-    res.json({ message: "文件上传成功" });
+    // 设置 SSE 响应头
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    try {
+        const stream = photoCompress(filePath, projectName);
+        for await (const log of stream) {
+            res.write(`data: ${log}\n\n`); // SSE 格式
+        }
+        res.write(`data: ${JSON.stringify({ message: "文件上传成功" })}\n\n`);
+    } catch (err) {
+        res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
+    } finally {
+        res.end();
+    }
 });
 
 module.exports = router;

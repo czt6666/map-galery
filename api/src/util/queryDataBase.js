@@ -1,6 +1,6 @@
 const db = require("../db");
 const config = require("../../config");
-const { tableNames } = require("../../config");
+
 let client;
 if (config.redis.use) {
     client = require("../redis");

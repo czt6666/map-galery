@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
@@ -51,56 +51,72 @@
                 border-radius: 4px;
             }
         </style>
+        <script src="./config.js"></script>
     </head>
     <body>
-        <h1>MapGallery 后台上传</h1>
-        <form id="uploadForm">
+        <form id="uploadForm" onsubmit="return false;">
             <label for="filePath">文件路径 (filePath)</label>
             <input type="text" id="filePath" name="filePath" required />
 
             <label for="projectName">项目名称 (projectName)</label>
             <input type="text" id="projectName" name="projectName" required />
 
-            <button type="submit">提交</button>
+            <!-- 把 type 改成 button 避免触发表单提交刷新 -->
+            <button type="button" id="uploadBtn">提交</button>
         </form>
 
         <pre id="result"></pre>
 
         <script>
-            const COMPUTER = false; // 根据环境调整
-            const PORT = 7105; // 修改成你的端口
             const server = COMPUTER ? "https://czt666.cn" : "http://127.0.0.1";
 
-            async function fetchData(baseUrl, params = {}, options = {}) {
-                try {
-                    const url = new URL(baseUrl);
-                    Object.keys(params).forEach((key) => {
-                        const value = params[key];
-                        if (Array.isArray(value)) {
-                            value.forEach((item) => url.searchParams.append(key, item));
-                        } else {
-                            url.searchParams.append(key, value);
-                        }
-                    });
-                    console.log("请求URL:", url.toString());
-                    const response = await fetch(url, options);
-                    const data = await response.json();
-                    return data;
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                    return { error: error.message };
-                }
-            }
+            const resultEl = document.getElementById("result");
+            const uploadBtn = document.getElementById("uploadBtn");
 
-            document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+            uploadBtn.addEventListener("click", async (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const filePath = document.getElementById("filePath").value;
                 const projectName = document.getElementById("projectName").value;
 
-                const apiUrl = `${server}:${PORT}/api/admin/upload`;
-                const result = await fetchData(apiUrl, { filePath, projectName });
+                const apiUrl = `${server}:${PORT}/api/admin/upload?filePath=${encodeURIComponent(
+                    filePath
+                )}&projectName=${encodeURIComponent(projectName)}`;
 
-                document.getElementById("result").textContent = JSON.stringify(result, null, 2);
+                const resultEl = document.getElementById("result");
+                resultEl.textContent = ""; // 清空旧结果
+
+                try {
+                    const response = await fetch(apiUrl);
+
+                    return;
+                    if (!response.body) {
+                        throw new Error("此浏览器不支持 fetch streaming");
+                    }
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder("utf-8");
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
+                        const chunk = decoder.decode(value, { stream: true });
+                        console.log("收到 chunk:", chunk);
+
+                        // SSE 是 "data: xxx\n\n" 格式，这里要拆分出来
+                        const messages = chunk.split("\n\n");
+                        messages.forEach((msg) => {
+                            if (msg.startsWith("data:")) {
+                                const data = msg.replace(/^data:\s*/, "");
+                                resultEl.textContent += data + "\n";
+                            }
+                        });
+                    }
+                } catch (err) {
+                    console.error("fetch 流式请求出错:", err);
+                    resultEl.textContent += `错误: ${err.message}\n`;
+                }
             });
         </script>
     </body>

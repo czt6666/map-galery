@@ -8,6 +8,8 @@ const sharp = require("sharp"); // 用于图像处理
 const path = require("path"); // 用于处理文件路径
 const fs = require("fs"); // 用于文件系统操作
 const config = require("../../config");
+const watermarkVertical = path.resolve(__dirname, "const/vertical.png");
+const watermarkHorizontal = path.resolve(__dirname, "const/horizontal.png");
 
 // 压缩图片的函数
 async function imageCompress(imagePath, outputFile, inputPath) {
@@ -45,7 +47,6 @@ async function imageCompress(imagePath, outputFile, inputPath) {
 
                 // 是否添加水印
                 if (config.watermark.checkAdd) {
-                    console.log("添加水印：", composite);
                     sharpInstance.composite([composite]);
                 }
 
@@ -93,22 +94,6 @@ function changeFileExtName(fileName) {
     return fileName;
 }
 
-// 提取相对目录
-function extractPathAfterRoot(imagePath, rootDirectory) {
-    // 获取rootDirectory在imagePath中的索引位置
-    const rootIndex = imagePath.indexOf(rootDirectory);
-
-    if (rootIndex === -1) {
-        return "";
-    }
-
-    // 获取rootDirectory以后的路径，不包括rootDirectory本身
-    const pathAfterRoot = imagePath.slice(rootIndex + rootDirectory.length);
-
-    // 在处理路径时，统一使用斜杠“/”来表示路径分隔符
-    return path.dirname(pathAfterRoot).replace(/\\/g, "/");
-}
-
 // 截取路径的前半部分
 function truncatePath(absolutePath, inputPath) {
     const prefix = inputPath.replace(/\\/g, "/");
@@ -124,6 +109,7 @@ function truncatePath(absolutePath, inputPath) {
 function getResizeAndComposite(width, height, orientation) {
     // 全景图resize宽度为1920
     const aspectRatio = width / height;
+    ``;
     const resizeWidth = aspectRatio > 2 ? config.imageWidth.panorama : config.imageWidth.default;
 
     // 判断图片是否为竖直方向
@@ -137,7 +123,7 @@ function getResizeAndComposite(width, height, orientation) {
         ? config.watermark.padding
         : resizeWidth - config.watermark.size.w - config.watermark.padding;
     // 水印图片路径
-    const compositeInput = isVertical ? config.watermark.vertical : config.watermark.horizontal;
+    const compositeInput = isVertical ? watermarkVertical : watermarkHorizontal;
 
     return {
         resize: { width: resizeWidth },

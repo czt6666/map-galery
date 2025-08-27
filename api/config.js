@@ -33,9 +33,7 @@ const config = {
     ],
     // imageCompress
     watermark: {
-        checkAdd: false, // 是否添加水印
-        horizontal: "./const/horizontal.png", // 水印图片横向路径
-        vertical: "./const/vertical.png", // 水印图片纵向路径
+        checkAdd: true, // 是否添加水印
         size: { w: 200, h: 29 }, // 水印尺寸(px)
         padding: 10, // 水印内边距(px)
     },
