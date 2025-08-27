@@ -3,7 +3,6 @@ const db = require("../db");
 async function normalizeTableNames(database) {
     // 获取当前数据库下所有 tb 开头的表名
     const validTableNames = await getTbTables();
-    console.log("Valid table names:", validTableNames);
 
     let tableNames = database;
     if (!Array.isArray(database)) {

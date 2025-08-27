@@ -1,25 +1,25 @@
-let CurImgIndex = 0
+let CurImgIndex = 0;
 
 // 初始化
 function initPopup() {
     // 初始化交互事件
-    initPopupEvent()
+    initPopupEvent();
 }
 
 // 初始化按钮
 function initButton(index) {
-    showButton('left')
-    showButton('right')
-    toggoButtonByIndex(index)
+    showButton("left");
+    showButton("right");
+    toggoButtonByIndex(index);
 }
 
 // 开启弹窗
 function openPopup(src) {
     const index = findCurrentImgIndex(src);
     // 初始化弹窗按钮
-    initButton(index)
+    initButton(index);
 
-    showPopup()
+    showPopup();
     // 更新当前图片
     updateImage(index);
     // 预加载前后图片
@@ -27,50 +27,50 @@ function openPopup(src) {
 
 // 关闭弹窗
 function closePopup() {
-    CurImgIndex = -1
-    hiddenPopup()
+    CurImgIndex = -1;
+    hiddenPopup();
 }
 
 // 下载当前照片
 function downloadCurrntImg() {
-    const src = compensataPath(CURRENTSHOWIMGS[CurImgIndex].imgSrc)
+    const src = compensataPath(CURRENTSHOWIMGS[CurImgIndex].imgSrc);
     // 获取文件名
     const filename = src.split("/").pop();
-    downloadImg(src, filename)
+    downloadImg(src, filename);
 }
 
 // 播放下一张
 function playNextPhoto() {
-    const index = CurImgIndex
+    const index = CurImgIndex;
     // 左右按钮的隐藏
-    toggoButtonByIndex(index, 'next')
+    toggoButtonByIndex(index, "next");
     // 展示下一张
-    updateImage(index + 1)
+    updateImage(index + 1);
     // 预加载下下张
-    preloadImage(index + 2)
+    preloadImage(index + 2);
 }
 
 // 播放上一张
 function playLastPhoto() {
-    const index = CurImgIndex
-    toggoButtonByIndex(index, 'last')
+    const index = CurImgIndex;
+    toggoButtonByIndex(index, "last");
     updateImage(index - 1);
     preloadImage(index - 2);
 }
 
 function initPopupEvent() {
     // 点击下一张 || 左滑
-    dom.right.addEventListener('click', playNextPhoto)
+    dom.right.addEventListener("click", playNextPhoto);
     // 点击上一张 || 右滑
-    dom.left.addEventListener('click', playLastPhoto)
+    dom.left.addEventListener("click", playLastPhoto);
     // 点击下载
-    dom.download.addEventListener('click', downloadCurrntImg)
+    dom.download.addEventListener("click", downloadCurrntImg);
     // 点击关闭按钮
-    dom.close.addEventListener('click', closePopup)
+    dom.close.addEventListener("click", closePopup);
     // 点击图片的关闭
-    dom.popup.addEventListener('click', function (event) {
-        if (!event.target.closest('.ctrl')) {
-            closePopup()
+    dom.popup.addEventListener("click", function (event) {
+        if (!event.target.closest(".ctrl")) {
+            closePopup();
         }
     });
 
@@ -97,11 +97,11 @@ function initPopupEvent() {
         if (Math.abs(deltaX) > threshold && Math.abs(deltaY) < threshold) {
             // 左滑
             if (deltaX < 0) {
-                playNextPhoto()
+                playNextPhoto();
             }
             // 右滑
             else {
-                playLastPhoto()
+                playLastPhoto();
             }
         }
     });

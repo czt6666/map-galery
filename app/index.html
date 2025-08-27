@@ -29,16 +29,16 @@
         <!-- 弹窗 -->
         <div class="popup" role="dialog" aria-hidden="true">
             <div class="ctrl ctrl-top">
-                <button class="close" aria-label="关闭"></button>
+                <span class="close" aria-label="关闭"></span>
             </div>
             <div class="ctrl ctrl-side left">
-                <button class="left-icon" aria-label="上一张"></button>
+                <span class="left-icon" aria-label="上一张"></span>
             </div>
             <div class="ctrl ctrl-side right">
-                <button class="right-icon" aria-label="下一张"></button>
+                <span class="right-icon" aria-label="下一张"></span>
             </div>
             <div class="ctrl ctrl-btm">
-                <button class="download">下载图片</button>
+                <span class="download">下载图片</span>
             </div>
             <div class="img-content">
                 <img src="" alt="预览图片" />
@@ -69,9 +69,16 @@
         <main class="main">
             <div class="placeholder" aria-hidden="true"></div>
             <div class="main-section">
-                <div class="hidden" id="loadingmask">
+                <div class="loading-mask" id="loadingmask">
+                    <div class="spinner">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
                     <span class="text">地图加载中...</span>
                 </div>
+
                 <section id="container" role="region" aria-label="地图展示"></section>
             </div>
         </main>

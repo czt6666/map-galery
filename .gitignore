@@ -99,6 +99,7 @@ htmlcov/
 ##################################################
 # 忽略所有图片和视频文件
 *.jpg
+*.JPG
 *.jpeg
 *.JPEG
 
@@ -138,3 +139,4 @@ Edgenesis/
 # === Whitelist: 必须进入 git ===
 !keep_this_folder/
 !important_config.json
+!css/dist/
