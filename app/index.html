@@ -1,117 +1,106 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <meta name="description" content="欢迎来到地图相册，在这里您可以探索旅行拍摄的精彩照片，将它们放置在地图上，带您回顾美好的旅程，发现新的目的地。">
-    <meta name="keywords" content="地图相册, 旅行照片, 地图浏览, 旅行目的地, 旅行回忆">
-    <meta name="author" content="czt666">
-    <title>地图相册 MapGallery</title>
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/error.css">
-    <link rel="stylesheet" href="./css/dist/sidebar.css">
-    <link rel="stylesheet" href="./css/dist/popup.css">
-    <link rel="stylesheet" href="./css/dist/index.css">
-</head>
+        <!-- SEO 信息 -->
+        <title>地图相册 MapGallery</title>
+        <meta
+            name="description"
+            content="欢迎来到地图相册，在这里您可以探索旅行拍摄的精彩照片，将它们放置在地图上，带您回顾美好的旅程，发现新的目的地。"
+        />
+        <meta name="keywords" content="地图相册, 旅行照片, 地图浏览, 旅行目的地, 旅行回忆" />
+        <meta name="author" content="czt666" />
 
-<body class="">
-    <!-- 弹窗 -->
-    <div class="popup">
-        <!-- 控件 -->
-        <div class="ctrl ctrl-top">
-            <span class="close"></span>
-        </div>
-        <div class="ctrl ctrl-side left">
-            <span class="left-icon"></span>
-        </div>
-        <div class="ctrl ctrl-side right">
-            <span class="right-icon"></span>
-        </div>
-        <div class="ctrl ctrl-btm">
-            <span class="download">下载图片</span>
-        </div>
-        <!-- 弹窗内容 -->
-        <div class="img-content">
-            <img src="" alt="img">
-        </div>
-    </div>
-    <!-- 侧边栏 -->
-    <aside class="sidebar msidebar">
-        <div class="top-ctrl">
-            <div class="sidebtn menubtn hover">
-                <b>展开菜单</b>
+        <!-- favicon -->
+        <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+
+        <!-- 样式表，合并/压缩后可减少请求数 -->
+        <link rel="stylesheet" href="./css/base.css" />
+        <link rel="stylesheet" href="./css/error.css" />
+        <link rel="stylesheet" href="./css/dist/sidebar.css" />
+        <link rel="stylesheet" href="./css/dist/popup.css" />
+        <link rel="stylesheet" href="./css/dist/index.css" />
+    </head>
+
+    <body>
+        <!-- 弹窗 -->
+        <div class="popup" role="dialog" aria-hidden="true">
+            <div class="ctrl ctrl-top">
+                <button class="close" aria-label="关闭"></button>
             </div>
-            <div class="sidebtn fullbtn hover">
-                <b>全屏展示</b>
+            <div class="ctrl ctrl-side left">
+                <button class="left-icon" aria-label="上一张"></button>
+            </div>
+            <div class="ctrl ctrl-side right">
+                <button class="right-icon" aria-label="下一张"></button>
+            </div>
+            <div class="ctrl ctrl-btm">
+                <button class="download">下载图片</button>
+            </div>
+            <div class="img-content">
+                <img src="" alt="预览图片" />
             </div>
         </div>
-        <nav class="mid-nav hid-cont">
-            <div class="nav-cont">
-                <div class="navbtn timebtn active">时光轴</div>
-                <div class="navbtn locationbtn">地理分类</div>
+
+        <!-- 侧边栏 -->
+        <aside class="sidebar msidebar">
+            <div class="top-ctrl">
+                <button class="sidebtn menubtn hover"><b>展开菜单</b></button>
+                <button class="sidebtn fullbtn hover"><b>全屏展示</b></button>
             </div>
-        </nav>
-        <section class="btm-cont hid-cont">
-            <ul class="city-list">
-                <!-- <li>
-                    <div class="info">河池市</div>
-                    <ul class="imgs-list">
-                        <li><img src="../广西照片/./露营2日出无人机/DJI_0096.JPEG" alt=""></li>
-                        <li><img src="../广西照片/./露营2日出无人机/DJI_0097.JPEG" alt=""></li>
-                        <li><span>显示更多</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="info">xx市</div>
-                    <ul class="imgs-list">
-                        <li><img src="../广西照片/./修图215/DJI_0145.JPEG" alt=""></li>
-                        <li><span>显示更多</span></li>
-                    </ul>
-                </li> -->
-            </ul>
-        </section>
-    </aside>
 
-    <main class="main">
-        <!-- 侧边栏占位框 -->
-        <div class="placeholder"></div>
-        <!-- 主要内容 -->
-        <div class="main-section">
-            <div class="hidden" id="loadingmask">
-                <span class="text">地图加载中...</span>
+            <nav class="mid-nav hid-cont" aria-label="导航菜单">
+                <div class="nav-cont">
+                    <button class="navbtn timebtn active">时光轴</button>
+                    <button class="navbtn locationbtn">地理分类</button>
+                </div>
+            </nav>
+
+            <section class="btm-cont hid-cont" aria-label="城市图片列表">
+                <ul class="city-list">
+                    <!-- 动态插入内容 -->
+                </ul>
+            </section>
+        </aside>
+
+        <main class="main">
+            <div class="placeholder" aria-hidden="true"></div>
+            <div class="main-section">
+                <div class="hidden" id="loadingmask">
+                    <span class="text">地图加载中...</span>
+                </div>
+                <section id="container" role="region" aria-label="地图展示"></section>
             </div>
-            <section id="container"></section>
+        </main>
+
+        <!-- 错误页面 -->
+        <div class="error none">
+            <div class="container">
+                <h1>404</h1>
+                <p>Oops! 页面未找到</p>
+                <p>返回 <a href="https://czt666.cn">首页</a></p>
+            </div>
         </div>
-    </main>
 
-    <!-- 报错页面 -->
-    <div class="error none">
-        <div class="container">
-            <h1>404</h1>
-            <p>Oops! Page Not Found</p>
-            <p>Looks like you're lost. Let's get you back <a href="https://czt666.cn">home</a>.</p>
-        </div>
-    </div>
-
-    <script src="https://webapi.amap.com/loader.js"></script>
-    <script src="./config.js"></script>
-    <script src="./js/util.js"></script>
-    <script src="./js/dom.js"></script>
-    <script src="./js/BatchK-means.js"></script>
-    <script src="./js/map-api.js"></script>
-    <script src="./js/map.js"></script>
-    <script src="./js/sort.js"></script>
-    <script src="./js/sidebar-render.js"></script>
-    <script src="./js/sidebar-api.js"></script>
-    <script src="./js/sidebar.js"></script>
-    <script src="./js/popup-api.js"></script>
-    <script src="./js/popup.js"></script>
-    <script src="./js/urlparse.js"></script>
-    <script src="./js/error.js"></script>
-    <script src="./js/index.js"></script>
-</body>
-
+        <!-- 脚本（建议打包/压缩合并） -->
+        <script src="https://webapi.amap.com/loader.js"></script>
+        <script src="./config.js"></script>
+        <script src="./js/util.js"></script>
+        <script src="./js/dom.js"></script>
+        <script src="./js/BatchK-means.js"></script>
+        <script src="./js/map-api.js"></script>
+        <script src="./js/map.js"></script>
+        <script src="./js/sort.js"></script>
+        <script src="./js/sidebar-render.js"></script>
+        <script src="./js/sidebar-api.js"></script>
+        <script src="./js/sidebar.js"></script>
+        <script src="./js/popup-api.js"></script>
+        <script src="./js/popup.js"></script>
+        <script src="./js/urlparse.js"></script>
+        <script src="./js/error.js"></script>
+        <script src="./js/index.js"></script>
+    </body>
 </html>

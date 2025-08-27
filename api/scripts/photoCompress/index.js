@@ -95,7 +95,7 @@ async function photoCompress(inputPath, projectName) {
     return await main(config2);
 }
 
-photoCompress("D:\\阿巴阿巴\\照片\\2025.08内蒙\\0-后期\\星空", "pojName_1");
+// photoCompress("D:\\阿巴阿巴\\照片\\2025.08内蒙\\0-后期\\星空", "pojName_1");
 
 module.exports = {
     photoCompress,

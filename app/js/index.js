@@ -5,21 +5,21 @@ function responsive() {
 
     // 检查宽度是否小于 xxx
     if (screenWidth < 940) {
-        body.classList.add('m');
+        body.classList.add("m");
     } else {
-        body.classList.remove('m');
+        body.classList.remove("m");
     }
 }
 
-// 执行主函数 
+// 执行主函数
 async function main() {
-    window.addEventListener('DOMContentLoaded', responsive);
-    window.addEventListener('resize', responsive);
+    window.addEventListener("DOMContentLoaded", responsive);
+    window.addEventListener("resize", responsive);
 
     try {
-        const { database, center, zoom } = parseUrlParams()
-        const server = COMPUTER ? 'https://czt666.cn' : 'http://127.0.0.1'
-        const ImageData = await fetchData(`${server}:${PORT}/geturldata`, { database });
+        const { database, center, zoom } = parseUrlParams();
+        const server = COMPUTER ? "https://czt666.cn" : "http://127.0.0.1";
+        const ImageData = await fetchData(`${server}:${PORT}/api/geturldata`, { database });
         if (!ImageData) {
             throw new Error("获取数据失败");
         }
@@ -30,17 +30,17 @@ async function main() {
         // 延迟非关键组件渲染
         setTimeout(() => {
             // 初始化侧边栏
-            initSideBar(ImageData)
+            initSideBar(ImageData);
             // 初始化弹窗
-            initPopup()
-        }, 0)
+            initPopup();
+        }, 0);
         // Promise.resolve().then(() => {
         // })
     } catch (error) {
         console.log(error);
         // 展示错误页面
-        showErrorPage()
+        showErrorPage();
     }
 }
 
-main()
+main();

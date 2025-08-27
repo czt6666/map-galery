@@ -3,10 +3,11 @@ const config = require("../config");
 
 // 权限中间件
 function authMiddleware(req, res, next) {
-    // 开放接口白名单（不需要校验）
-    const whiteList = ["/api/login", "/api/public"];
+    // 需要鉴权的路径（保护接口）
+    const protectList = ["/api/user", "/api/admin", "/api/private"];
 
-    if (whiteList.includes(req.path)) {
+    // 默认开放，只有匹配到需要鉴权的才校验
+    if (!protectList.includes(req.path)) {
         return next();
     }
 

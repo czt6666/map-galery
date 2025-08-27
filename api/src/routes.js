@@ -24,9 +24,11 @@ router.get("/geturldata", async (req, res) => {
     res.json(result);
 });
 
-router.post("/upload", async (req, res) => {
-    const { filePath, projectName } = req.body;
-    await photoCompress(filePath, projectName);
+router.get("/admin/upload", async (req, res) => {
+    const { filePath, projectName } = req.query;
+    console.log("上传文件信息:", { filePath, projectName });
+
+    // await photoCompress(filePath, projectName);
     // 处理文件上传逻辑
     res.json({ message: "文件上传成功" });
 });

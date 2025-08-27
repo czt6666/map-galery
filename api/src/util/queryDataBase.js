@@ -1,9 +1,9 @@
-const db = require('../db')
-const config = require('../config');
-const { tableNames } = require("../config")
+const db = require("../db");
+const config = require("../../config");
+const { tableNames } = require("../../config");
 let client;
 if (config.redis.use) {
-    client = require('../redis');
+    client = require("../redis");
 }
 
 async function queryMutData(tableNames) {
@@ -11,18 +11,20 @@ async function queryMutData(tableNames) {
         return [];
     }
 
-    const cacheKey = `queryMutData:${tableNames.join(',')}`;
+    const cacheKey = `queryMutData:${tableNames.join(",")}`;
 
     try {
         if (config.redis.use) {
             const cachedResult = await client.get(cacheKey);
             if (cachedResult) {
-                console.log('Cache hit for queryMutData');
+                console.log("Cache hit for queryMutData");
                 return JSON.parse(cachedResult);
             }
         }
 
-        const queries = tableNames.map(tableName => `
+        const queries = tableNames
+            .map(
+                (tableName) => `
             SELECT 
                 relativePath,
                 latitude,
@@ -32,7 +34,9 @@ async function queryMutData(tableNames) {
                 district
             FROM ${tableName}
             WHERE latitude != '' AND is_delete = 0
-        `).join(' UNION ALL ');
+        `
+            )
+            .join(" UNION ALL ");
 
         const queryResult = await new Promise((resolve, reject) => {
             db.query(queries, (error, results) => {
@@ -44,17 +48,17 @@ async function queryMutData(tableNames) {
             });
         });
 
-        config.redis.use && await client.set(cacheKey, JSON.stringify(queryResult), 'EX', 3600);
+        config.redis.use && (await client.set(cacheKey, JSON.stringify(queryResult), "EX", 3600));
 
         return queryResult;
     } catch (error) {
-        console.error('Error fetching data from tables:', tableNames, error);
+        console.error("Error fetching data from tables:", tableNames, error);
         return [];
     }
 }
 
 async function clearCache(tableNames) {
-    const cacheKey = `queryMutData:${tableNames.join(',')}`;
+    const cacheKey = `queryMutData:${tableNames.join(",")}`;
     await client.del(cacheKey);
 }
 

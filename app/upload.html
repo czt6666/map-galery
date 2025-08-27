@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <title>MapGallery 后台上传</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/base.css" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 40px;
+                background: #f9f9f9;
+            }
+            h1 {
+                margin-bottom: 20px;
+            }
+            form {
+                background: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                max-width: 400px;
+            }
+            label {
+                display: block;
+                margin-top: 15px;
+            }
+            input[type="text"] {
+                width: 100%;
+                padding: 8px 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            button {
+                margin-top: 20px;
+                padding: 10px 15px;
+                background: #0078d7;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #005a9e;
+            }
+            pre {
+                margin-top: 20px;
+                background: #eee;
+                padding: 10px;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>MapGallery 后台上传</h1>
+        <form id="uploadForm">
+            <label for="filePath">文件路径 (filePath)</label>
+            <input type="text" id="filePath" name="filePath" required />
+
+            <label for="projectName">项目名称 (projectName)</label>
+            <input type="text" id="projectName" name="projectName" required />
+
+            <button type="submit">提交</button>
+        </form>
+
+        <pre id="result"></pre>
+
+        <script>
+            const COMPUTER = false; // 根据环境调整
+            const PORT = 7105; // 修改成你的端口
+            const server = COMPUTER ? "https://czt666.cn" : "http://127.0.0.1";
+
+            async function fetchData(baseUrl, params = {}, options = {}) {
+                try {
+                    const url = new URL(baseUrl);
+                    Object.keys(params).forEach((key) => {
+                        const value = params[key];
+                        if (Array.isArray(value)) {
+                            value.forEach((item) => url.searchParams.append(key, item));
+                        } else {
+                            url.searchParams.append(key, value);
+                        }
+                    });
+                    console.log("请求URL:", url.toString());
+                    const response = await fetch(url, options);
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    return { error: error.message };
+                }
+            }
+
+            document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const filePath = document.getElementById("filePath").value;
+                const projectName = document.getElementById("projectName").value;
+
+                const apiUrl = `${server}:${PORT}/api/admin/upload`;
+                const result = await fetchData(apiUrl, { filePath, projectName });
+
+                document.getElementById("result").textContent = JSON.stringify(result, null, 2);
+            });
+        </script>
+    </body>
+</html>
