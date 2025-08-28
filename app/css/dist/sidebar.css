@@ -239,7 +239,7 @@
   .sidebar.msidebar .mid-nav {
     display: block;
     width: 100%;
-    height: calc(40px + 70px);
+    height: 110px;
     padding-top: 70px;
     transform: translateX(-100%);
     transition: transform var(--animation-timebtn-mid);
@@ -268,3 +268,5 @@
     transform: translateX(0%);
   }
 }
+
+/*# sourceMappingURL=sidebar.css.map */

@@ -58,21 +58,21 @@
 }
 
 .menubtn {
-    background-image: url('../img/menu.svg');
+    background-image: url("../img/menu.svg");
 }
 
 .active .menubtn,
 .full .menubtn {
-    background-image: url('../img/close.svg');
+    background-image: url("../img/close.svg");
 }
 
 .fullbtn {
     display: none;
-    background-image: url('../img/full.svg');
+    background-image: url("../img/full.svg");
 }
 
 .full .fullbtn {
-    background-image: url('../img/srink.svg');
+    background-image: url("../img/srink.svg");
 }
 
 .active .fullbtn,
@@ -137,9 +137,7 @@
     height: 25px;
     top: 15px;
     right: -20px;
-    background: radial-gradient(ellipse farthest-side at 100% 0,
-            transparent 100%,
-            var(--imgcont-defult-color) 0%);
+    background: radial-gradient(ellipse farthest-side at 100% 0, transparent 100%, var(--imgcont-defult-color) 0%);
     z-index: 5;
 }
 
@@ -151,25 +149,18 @@
     height: 25px;
     top: 15px;
     left: -20px;
-    background: radial-gradient(ellipse farthest-side at 0 0,
-            transparent 100%,
-            var(--imgcont-defult-color) 0%);
+    background: radial-gradient(ellipse farthest-side at 0 0, transparent 100%, var(--imgcont-defult-color) 0%);
     z-index: 5;
 }
 
-
 /* 导航图标被选中 */
 .nav-cont .locationbtn.active::after {
-    background: radial-gradient(ellipse farthest-side at 0 0,
-            transparent 100%,
-            var(--imgcont-active-color) 0%);
+    background: radial-gradient(ellipse farthest-side at 0 0, transparent 100%, var(--imgcont-active-color) 0%);
     z-index: 7;
 }
 
 .nav-cont .timebtn.active::after {
-    background: radial-gradient(ellipse farthest-side at 100% 0,
-            transparent 100%,
-            var(--imgcont-active-color) 0%);
+    background: radial-gradient(ellipse farthest-side at 100% 0, transparent 100%, var(--imgcont-active-color) 0%);
     z-index: 7;
 }
 
@@ -177,7 +168,6 @@
     background-color: var(--imgcont-active-color);
     z-index: 7;
 }
-
 
 /* 底部内容区 */
 .btm-cont {
@@ -195,7 +185,7 @@
     font-size: 16px;
 }
 
-.city-list>li {
+.city-list > li {
     margin-bottom: var(--nav-padding-mid);
 }
 
@@ -203,7 +193,7 @@
     padding-left: var(--nav-padding-mid);
 }
 
-.city-list>li {
+.city-list > li {
     overflow: hidden;
     width: 100%;
 }
@@ -220,20 +210,20 @@
     grid-template-columns: repeat(6, 1fr);
 }
 
-.imgs-list>li {
+.imgs-list > li {
     width: 100%;
     height: auto;
     aspect-ratio: 1/1;
 }
 
-.imgs-list>li img {
+.imgs-list > li img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 /* 展示更多按钮 */
-.imgs-list>li:last-child {
+.imgs-list > li:last-child {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -246,7 +236,7 @@
     transition: background-color 0.3s;
 }
 
-.imgs-list>li:last-child:hover {
+.imgs-list > li:last-child:hover {
     background-color: #555;
 }
 

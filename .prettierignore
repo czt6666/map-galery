@@ -1,0 +1,8 @@
+# 忽略的文件和目录
+src/debug/**
+
+node_modules
+dist
+package-lock.json
+pnpm-lock.yaml
+pnpm-lock.json

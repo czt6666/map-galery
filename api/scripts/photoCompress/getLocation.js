@@ -1,5 +1,9 @@
 const axios = require("axios");
 const config = require("../../config");
+const pLimit = require("p-limit");
+
+// 每秒最多3个请求
+const limit = pLimit(3);
 
 /**
  * 从指定的 URL 获取数据
@@ -52,60 +56,68 @@ let lastResult = {
     longitude: 0,
     locationData: null,
 };
-const closeDistance = 1000; // 米
+const closeDistance = 10000; // 米
 
+// 重试函数：支持指数退避
+async function retry(fn, retries = 3, delay = 200) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            return await fn();
+        } catch (err) {
+            if (i < retries - 1) {
+                console.warn(`请求失败，第 ${i + 1} 次重试...`);
+                await new Promise((r) => setTimeout(r, delay * (i + 1))); // 指数延迟
+            } else {
+                throw err;
+            }
+        }
+    }
+}
+
+// 改造后的获取地理位置函数
 async function getLocationData(gpsLocation) {
-    // 判断是否有gps信息
     if (!gpsLocation.longitude) {
         return {};
     }
 
-    // 100米以内，直接使用上一次结果
+    // 10000米以内，沿用上次结果
     const isWithin100m = isCloseDistance(
         gpsLocation.latitude,
         gpsLocation.longitude,
         lastResult.latitude,
-        lastResult.longitude
+        lastResult.longitude,
     );
-
     if (isWithin100m) {
-        // console.log('沿用lastLocation');
         return lastResult.locationData;
     }
 
-    // 用promise返回
-    return new Promise(async (resolve) => {
-        // 获取地理位置信息
-        const gpsStr = `${gpsLocation.longitude},${gpsLocation.latitude}`;
-        try {
-            const apiUrl = buildApiUrl(gpsStr);
-            const result = await fetchData(apiUrl);
-            if (result && result.status === "1") {
-                const locationAllData = result.regeocode.addressComponent;
-                const locationData = {
-                    province: locationAllData.province.length === 0 ? "" : locationAllData.province, // 防止是空数组
-                    city: locationAllData.city.length === 0 ? "" : locationAllData.city,
-                    district: locationAllData.district.length === 0 ? "" : locationAllData.district,
-                };
-                // 更新上一次结果
-                lastResult = {
-                    latitude: gpsLocation.latitude,
-                    longitude: gpsLocation.longitude,
-                    locationData,
-                };
+    const gpsStr = `${gpsLocation.longitude},${gpsLocation.latitude}`;
+    const apiUrl = buildApiUrl(gpsStr);
 
-                console.log("请求地址信息-等待50毫秒");
-                setTimeout(() => {
-                    resolve(locationData);
-                }, 50);
-            } else {
-                console.log(result);
-                console.log(apiUrl, "请求失败");
-            }
-        } catch (error) {
-            console.error("Error getting location data:", error);
+    const fn = async () => {
+        const result = await fetchData(apiUrl);
+        if (!result || result.status !== "1") {
+            throw new Error("API请求失败");
         }
-    });
+
+        const locationAllData = result.regeocode.addressComponent;
+        const locationData = {
+            province: locationAllData.province || "",
+            city: locationAllData.city || "",
+            district: locationAllData.district || "",
+        };
+
+        lastResult = {
+            latitude: gpsLocation.latitude,
+            longitude: gpsLocation.longitude,
+            locationData,
+        };
+
+        return locationData;
+    };
+
+    // 加入重试和延迟（保证QPS）
+    return retry(() => limit(() => fn()), 3, 300);
 }
 
 module.exports = getLocationData;

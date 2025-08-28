@@ -1,0 +1,35 @@
+.error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #e4e5e6;
+  z-index: 99999;
+}
+
+.error .reason {
+  display: flex;
+  width: 0;
+  height: 100%;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.error .reason span {
+  font-size: 18px;
+  color: #EE2C2C;
+}
+
+.err-side {
+  width: 0px;
+  height: 100%;
+  background-color: #FF4040;
+}
+
+/*# sourceMappingURL=error.css.map */

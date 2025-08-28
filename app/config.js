@@ -1,20 +1,31 @@
 // 本机:0 https服务器:1
-const COMPUTER = 0
-const PORT = 7105
-const VERSION = "0.1.6"
+const COMPUTER = 1;
+const PORT = 7105;
+const VERSION = "0.1.6";
 
 const AmapConfig = {
     key: "cace0c9b67dbbaebc5f2d68d371ccfdf",
     securityJsCode: "daa2af11f5b4ed49eb8724d0c187e58e",
-}
+};
 
-const adjustFileLocation = './upload'
+const adjustFileLocation = "./upload";
 
 const UrlCustomParams = {
     // 按省市范围分类
     bj: {
         name: "北京市",
-        database: ["37yytyinghua", "37xiaoyuanqiujing", "37bulaotun", "37beihaixue", "37jinguangcd", "37taoyuanxiangu", "37lizesoho", "37guixiaoshi", "37beilizaochun", "37beilichunxue",],
+        database: [
+            "37yytyinghua",
+            "37xiaoyuanqiujing",
+            "37bulaotun",
+            "37beihaixue",
+            "37jinguangcd",
+            "37taoyuanxiangu",
+            "37lizesoho",
+            "37guixiaoshi",
+            "37beilizaochun",
+            "37beilichunxue",
+        ],
         center: [116.37218, 40.057733],
         zoom: 9.07,
     },
@@ -98,7 +109,7 @@ const UrlCustomParams = {
     },
     blg: {
         name: "北理工",
-        database: ["37xiaoyuanqiujing", "37beilizaochun", "37beilichunxue",],
+        database: ["37xiaoyuanqiujing", "37beilizaochun", "37beilichunxue"],
         center: [116.164918, 39.731306],
         zoom: 16.11,
     },
@@ -121,5 +132,4 @@ const UrlCustomParams = {
     //     center: [jingdu, weidu],
     //     zoom: zoomnumber,
     // },
-
-}
+};

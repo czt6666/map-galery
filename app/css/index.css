@@ -1,11 +1,10 @@
 /* 自定义变量 */
 html {
-    --animation-timebtn-mid: .3s;
+    --animation-timebtn-mid: 0.3s;
     --nav-padding-mid: 6px;
     --imgcont-active-color: #d7d8d9;
     --imgcont-defult-color: #e7e8e9;
 }
-
 
 /* 全局 */
 body {
@@ -41,10 +40,11 @@ body {
     border-radius: 2px;
     background-size: cover;
     background-position: center;
+    transform: translate(-50%, -50%);
 }
 
 .imgmark span {
-    content: '10';
+    content: "10";
     position: absolute;
     right: 0;
     transform: translate(30%, -30%);

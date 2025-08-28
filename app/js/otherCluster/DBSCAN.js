@@ -78,7 +78,7 @@ function calculateCentroid(cluster) {
 // 将点进行聚类
 function mapDbscan(imgData, epsilon, minPts) {
     // 分离gps数据
-    const gpsData = imgData.map((img) => img.gps)
+    const gpsData = imgData.map((img) => img.gps);
     // console.log(11);
     // 聚类
     const clustersGpsIndex = dbscan(gpsData, epsilon, minPts);
@@ -87,31 +87,31 @@ function mapDbscan(imgData, epsilon, minPts) {
     // 将聚类索引解析为imgList
     const clustersImageList = clustersGpsIndex
         // 噪声点
-        .filter(item => item)
-        .map(clusterIndexList => {
+        .filter((item) => item)
+        .map((clusterIndexList) => {
             if (clusterIndexList === null) {
                 return;
             }
 
             // 根据索引拿图片
-            return clusterIndexList.map(index => imgData[index]);
+            return clusterIndexList.map((index) => imgData[index]);
         });
     // console.log(clustersImageList);
 
     // 计算imgList中心
-    const clustersResult = clustersImageList.map(imgList => {
+    const clustersResult = clustersImageList.map((imgList) => {
         // 得到一类图片的gps信息
-        const gpsList = imgList.map(img => img.gps)
-        const center = calculateCentroid(gpsList)
+        const gpsList = imgList.map((img) => img.gps);
+        const center = calculateCentroid(gpsList);
 
         return {
             center: center,
             imgsInfo: imgList,
-        }
-    })
+        };
+    });
     // console.log(clustersResult);
     // console.log(33);
-    return clustersResult
+    return clustersResult;
 }
 
 // 示例GPS数据
@@ -119,9 +119,9 @@ const gpsData = [
     [107.870567, 21.796001],
     [107.871234, 21.795111],
     [107.872222, 21.797333],
-    [107.880000, 21.800000],
+    [107.88, 21.8],
     [107.882222, 21.802222],
-    [107.890000, 21.790000]
+    [107.89, 21.79],
 ];
 
 // 运行DBSCAN聚类

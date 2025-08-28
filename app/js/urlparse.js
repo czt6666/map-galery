@@ -2,15 +2,15 @@ const defaultCoordinates = {
     center: [108.2, 36.5],
     zoom: 4,
     database: [],
-}
+};
 
 function parseUrlParams() {
     const urlParams = new URLSearchParams(window.location.search);
 
-    const dataParam = urlParams.get('data');
-    const displayParam = urlParams.get('display');
-    const centerParam = urlParams.get('center');
-    const zoomParam = urlParams.get('zoom');
+    const dataParam = urlParams.get("data");
+    const displayParam = urlParams.get("display");
+    const centerParam = urlParams.get("center");
+    const zoomParam = urlParams.get("zoom");
 
     // 预设数据范围
     if (dataParam && UrlCustomParams[dataParam]) {
@@ -47,5 +47,5 @@ function parseUrlParams() {
         }
     }
 
-    return defaultCoordinates
+    return defaultCoordinates;
 }

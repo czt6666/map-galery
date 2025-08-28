@@ -28,7 +28,7 @@ async function* main(config) {
         compressPromises.push(
             imageCompress(photos[i].originalPath, config.outputPath, config.inputPath).then((compressResult) => {
                 photos[i] = { ...photos[i], ...compressResult };
-            })
+            }),
         );
 
         if ((i + 1) % progressInterval === 0) {
@@ -51,7 +51,7 @@ async function* main(config) {
         exifPromise.push(
             getExifInfo(photos[i].absolutePath).then((exifData) => {
                 photos[i] = { ...photos[i], ...exifData };
-            })
+            }),
         );
     }
     await Promise.all(exifPromise);
