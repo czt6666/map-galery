@@ -9,12 +9,12 @@ const { photoCompress } = require("../scripts/photoCompress");
 router.get("/geturldata", async (req, res) => {
     const { database } = req.query;
     const tableNames = await util.normalizeTableNames(database);
-    console.log("FIND-IN:", tableNames);
+    // console.log("FIND-IN:", tableNames);
 
     const data = await db.queryMutData(tableNames);
     const result = data.map((item) => ({
         gps: [Number(item.longitude), Number(item.latitude)],
-        imgSrc: `http://${config.HOST}:${config.PORT}/upload/${item.relativePath}`,
+        imgSrc: `http://${config.HOST}:${config.PORT}/upload${item.relativePath}`,
         fileSize: item.fileSize,
         shotDate: item.shotDate,
         shotTime: item.shotTime,

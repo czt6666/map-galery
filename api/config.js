@@ -26,9 +26,12 @@ const config = {
     // getLocation
     apiKey: "a85fd4e059de8095a430b5bffdc7d6a3", // 高德 apikey
     // 主机 mysql 账号 密码
-    mysql_user: "map_gallery",
-    mysql_password: "MPjb5WSADFEBRk8C",
-    database: "map_gallery",
+    mysql: {
+        port: 3307,
+        user: "map_gallery",
+        password: "MPjb5WSADFEBRk8C",
+        database: "map_gallery",
+    },
 };
 
 // mysqldump -u root -p map_gallery > map_gallery.sql

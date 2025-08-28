@@ -19,23 +19,30 @@ async function main() {
     try {
         const { database, center, zoom } = parseUrlParams();
         const server = COMPUTER ? "https://czt666.cn" : "http://127.0.0.1";
-        const ImageData = await fetchData(`${server}:${PORT}/api/geturldata`, { database });
+        const [ImageData, map] = await Promise.all([
+            fetchData(`${server}:${PORT}/api/geturldata`, { database }),
+            initMap(center, zoom),
+        ]);
+
         if (!ImageData) {
             throw new Error("获取数据失败");
         }
-        // 初始化地图
-        const map = await initMap(center, zoom);
+
+        // 替换 gps
+        const transImageData = ImageData.map((item) => ({
+            ...item,
+            gps: wgs84togcj02(item.gps),
+        }));
+
         // 绑定地图事件
-        addMapEvent(map, ImageData);
+        addMapEvent(map, transImageData);
         // 延迟非关键组件渲染
         setTimeout(() => {
             // 初始化侧边栏
-            initSideBar(ImageData);
+            initSideBar(transImageData);
             // 初始化弹窗
             initPopup();
         }, 0);
-        // Promise.resolve().then(() => {
-        // })
     } catch (error) {
         console.log(error);
         // 展示错误页面
