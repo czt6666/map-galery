@@ -26,7 +26,7 @@ async function getTbTables() {
         `SELECT table_name 
          FROM information_schema.tables 
          WHERE table_schema = 'map_gallery' 
-           AND table_name LIKE 'tb%'`
+           AND table_name LIKE 'tb%'`,
     );
 
     // 返回 table_name 数组

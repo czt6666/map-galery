@@ -1,12 +1,12 @@
 // 根据城市分类 active
 function categorizeByCity(data) {
     if (!data || !data.length) {
-        return null
+        return null;
     }
 
     const result = {};
 
-    data.forEach(item => {
+    data.forEach((item) => {
         const key = item.city || item.district;
         if (!result[key]) {
             result[key] = [];
@@ -20,12 +20,12 @@ function categorizeByCity(data) {
 // 根据地区分类
 function categorizeByDistrict(data) {
     if (!data || !data.length) {
-        return null
+        return null;
     }
 
     const result = {};
 
-    data.forEach(item => {
+    data.forEach((item) => {
         const key = item.district;
         if (!result[key]) {
             result[key] = [];
@@ -42,7 +42,6 @@ function categorizeByDate(data) {
     }
 
     const result = new Map();
-
 
     for (const item of data) {
         const key = item.shotDate;
@@ -69,12 +68,12 @@ function formatDate(dateString) {
 
 // 根据城市和地区分类
 function categorizeByCityAndDistrict(data) {
-    const citySort = categorizeByCity(data)
+    const citySort = categorizeByCity(data);
 
-    const result = {}
+    const result = {};
     for (const city in citySort) {
-        result[city] = categorizeByDistrict(citySort[city])
+        result[city] = categorizeByDistrict(citySort[city]);
     }
 
-    return result
+    return result;
 }

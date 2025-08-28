@@ -47,7 +47,7 @@ function createTableAndInsertData(jsonData, tableName) {
             keys.map((key) => {
                 if (typeof obj[key] === "number") return obj[key];
                 return obj[key].length ? obj[key] : null;
-            })
+            }),
         );
 
         db.query(insertDataSQL, [values], (error, results) => {

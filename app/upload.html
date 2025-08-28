@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
     <head>
         <meta charset="UTF-8" />
@@ -80,7 +80,7 @@
                 const projectName = document.getElementById("projectName").value;
 
                 const apiUrl = `${server}:${PORT}/api/admin/upload?filePath=${encodeURIComponent(
-                    filePath
+                    filePath,
                 )}&projectName=${encodeURIComponent(projectName)}`;
 
                 const resultEl = document.getElementById("result");

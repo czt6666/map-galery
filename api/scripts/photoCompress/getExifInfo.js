@@ -1,6 +1,6 @@
-const { ExifImage } = require('exif');
-const { promisify } = require('util');
-const path = require('path');
+const { ExifImage } = require("exif");
+const { promisify } = require("util");
+const path = require("path");
 
 // 将 ExifImage 函数 Promise 化
 const exifImagePromise = promisify(ExifImage);
@@ -18,25 +18,28 @@ async function getExifData(imagePath) {
         // 将 Exif 数据写入 JSON 文件
         if (1 == 0) {
             const fileName = path.basename(imagePath);
-            const outputFile = path.join('./', `exif_${fileName}.json`);
+            const outputFile = path.join("./", `exif_${fileName}.json`);
             writeJsonToFile(outputFile, exifData);
         }
 
         // 将日期时间字符串转换为标准格式 "YYYY-MM-DD HH:mm:ss"
-        const dateTimeString = exifData?.exif?.DateTimeOriginal || '';
-        const standardDateTimeString = dateTimeString.replace(/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})$/, '$1-$2-$3 $4:$5:$6');
+        const dateTimeString = exifData?.exif?.DateTimeOriginal || "";
+        const standardDateTimeString = dateTimeString.replace(
+            /^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})$/,
+            "$1-$2-$3 $4:$5:$6",
+        );
 
         // 提取 Exif 数据中的相关信息
-        const shotDate = exifData?.exif?.DateTimeOriginal?.split(' ')[0] || ''; // 拍摄日期
-        const shotTime = exifData?.exif?.DateTimeOriginal?.split(' ')[1] || ''; // 拍摄时间
+        const shotDate = exifData?.exif?.DateTimeOriginal?.split(" ")[0] || ""; // 拍摄日期
+        const shotTime = exifData?.exif?.DateTimeOriginal?.split(" ")[1] || ""; // 拍摄时间
         const shotTimestamp = Date.parse(standardDateTimeString).toString();
-        const cameraModel = exifData?.image?.Model || ''; // 拍摄设备
-        const apertureValue = exifData?.exif?.FNumber || ''; // 光圈值
-        const exposureTime = exifData?.exif?.ExposureTime || ''; // 曝光时间
-        const ISO = exifData?.exif?.ISO || ''; // ISO
-        const exposureCompensation = exifData?.exif?.ExposureCompensation || ''; // 曝光补偿
-        const focalLength = exifData?.exif?.FocalLength || ''; // 焦距
-        const meteringMode = exifData?.exif?.MeteringMode || ''; // 测光模式
+        const cameraModel = exifData?.image?.Model || ""; // 拍摄设备
+        const apertureValue = exifData?.exif?.FNumber || ""; // 光圈值
+        const exposureTime = exifData?.exif?.ExposureTime || ""; // 曝光时间
+        const ISO = exifData?.exif?.ISO || ""; // ISO
+        const exposureCompensation = exifData?.exif?.ExposureCompensation || ""; // 曝光补偿
+        const focalLength = exifData?.exif?.FocalLength || ""; // 焦距
+        const meteringMode = exifData?.exif?.MeteringMode || ""; // 测光模式
 
         // 获取地理位置信息
         let location = {};
@@ -74,7 +77,7 @@ async function getExifData(imagePath) {
             meteringMode,
         };
     } catch (error) {
-        console.error('Error: ' + error.message);
+        console.error("Error: " + error.message);
         throw error;
     }
 }
@@ -86,7 +89,7 @@ async function getExifData(imagePath) {
  */
 function convertGPSDataToDecimal(gpsData) {
     if (!gpsData.GPSLatitude || gpsData.GPSLatitude[0] === 0) {
-        return {}
+        return {};
     }
 
     try {
@@ -119,15 +122,14 @@ function convertCoordinateToDecimal(coordinate) {
     const minutes = coordinate[1];
     const seconds = coordinate[2];
 
-    const decimal = degrees + (minutes / 60) + (seconds / 3600);
+    const decimal = degrees + minutes / 60 + seconds / 3600;
     return decimal.toFixed(6); // 保留6位小数
 }
 
 if (1 === 0) {
-    const imagePath = "D:/WebFrontEnd/Study/mapGallery/新疆照片225/7.23/IMG_6021.JPEG"
-    const result = getExifData(imagePath)
+    const imagePath = "D:/WebFrontEnd/Study/mapGallery/新疆照片225/7.23/IMG_6021.JPEG";
+    const result = getExifData(imagePath);
     console.log(result);
 }
-
 
 module.exports = getExifData;

@@ -117,7 +117,7 @@ describe("getLocationData", () => {
         });
 
         const requests = Array.from({ length: 100 }, (_, i) =>
-            getLocationData({ latitude: 10 + i * 0.5, longitude: 120 + i * 1 })
+            getLocationData({ latitude: 10 + i * 0.5, longitude: 120 + i * 1 }),
         );
 
         const results = await Promise.all(requests);

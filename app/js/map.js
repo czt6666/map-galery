@@ -2,7 +2,7 @@
 async function initMap(center = [108.2, 36.5], zoom = 4) {
     const AMap = await AMapLoader.load({
         key: AmapConfig.key,
-        version: "2.0"
+        version: "2.0",
     });
 
     // 设置中心点
@@ -11,7 +11,7 @@ async function initMap(center = [108.2, 36.5], zoom = 4) {
         zoom,
         center,
         layers: [satellite],
-        correct: true
+        correct: true,
     });
 
     // 绑定控件
@@ -25,28 +25,28 @@ function addMapEvent(map, ImageData) {
     // 首次渲染 添加异步任务
     setTimeout(() => {
         handleMapChange(map, ImageData);
-    }, 0)
+    }, 0);
 
-    map.on('zoomend', function (event) {
+    map.on("zoomend", function (event) {
         handleMapChange(map, ImageData);
     });
 
-    map.on('moveend', function (event) {
+    map.on("moveend", function (event) {
         handleMapChange(map, ImageData);
     });
 
-    map.on('click', function () {
-        const { lng, lat } = map.getCenter()
-        const zoom = map.getZoom()
+    map.on("click", function () {
+        const { lng, lat } = map.getCenter();
+        const zoom = map.getZoom();
         console.log(`    // lng:   ${lng}   lat:   ${lat}   zoom:   ${zoom}  `);
-    })
+    });
 
     // 加载完成揭下面罩
     map.on("complete", function () {
         setTimeout(() => {
-            loadingmask.style.display = "none"
-        }, 1)
-    })
+            loadingmask.style.display = "none";
+        }, 1);
+    });
 }
 
 // 获取 epsilon 值
@@ -73,10 +73,8 @@ function handleMapChange(map, ImageData) {
     const clusterExecutionTime = clusterEndTime - clusterStartTime;
     console.log(`聚类为${clusteredData.length}个点，函数执行${clusterExecutionTime}毫秒`);
 
-
-
     // 绘制聚类点照片
-    drawPhotoPoints(map, clusteredData)
+    drawPhotoPoints(map, clusteredData);
     // 绘制所有可见点
     // drawVisiblePoints(map, visibleData)
     // 绘制聚类点

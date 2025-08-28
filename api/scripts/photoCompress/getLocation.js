@@ -85,7 +85,7 @@ async function getLocationData(gpsLocation) {
         gpsLocation.latitude,
         gpsLocation.longitude,
         lastResult.latitude,
-        lastResult.longitude
+        lastResult.longitude,
     );
     if (isWithin100m) {
         return lastResult.locationData;

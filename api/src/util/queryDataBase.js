@@ -34,7 +34,7 @@ async function queryMutData(tableNames) {
                 district
             FROM ${tableName}
             WHERE latitude != '' AND is_delete = 0
-        `
+        `,
             )
             .join(" UNION ALL ");
 

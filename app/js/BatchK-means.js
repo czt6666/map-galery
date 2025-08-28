@@ -1,11 +1,11 @@
 /**
  * 聚类算法及簇合并
- * 
+ *
  * 这个算法实现了 K-means 聚类算法，并在聚类完成后，根据设定的 epsilon 距离阈值，将距离在 epsilon 以内的簇合并。
  * 输入数据包含每个点的经纬度信息，根据经纬度计算点之间的正半矢距离。聚类完成后，返回每个簇的数据点及其质心信息。
  * 在聚类完成后，可以使用该算法将一组经纬度坐标聚类，并将距离在 epsilon 以内的簇合并，以便后续分析或可视化。
- * 
- * 函数列表： 
+ *
+ * 函数列表：
  * - assignPointsToClusters(data, centroids): 将数据点分配到最近的聚类中心
  * - updateCentroids(clusters): 更新聚类中心
  * - centroidsNotUpdated(oldCentroids, newCentroids): 检查新的聚类中心与旧的中心是否相同
@@ -14,7 +14,7 @@
  * - mergeClusters(centroids, clusters, epsilon): 合并距离在 epsilon 以内的簇
  * - miniBatchReduce(data): 使用 min-batch 算法进行点缩减
  * - kMeans(data, k, maxIterations, epsilon): K均值聚类算法及簇合并主函数
- * 
+ *
  * 使用到的工具函数：
  * - haversineDistance 计算正半矢
  * - calculateCentroid 计算聚类中心点
@@ -22,16 +22,15 @@
 
 // const { haversineDistance, calculateCentroid } = require('./util')
 
-const maxPointsInMinBatch = 2000 // 超过这么多点，则进行min-batch点缩减
-const maxBatchSize = 15 // 设置最大的批次大小
-const reduceRatio = 1000 // 最大批次比例
-
+const maxPointsInMinBatch = 2000; // 超过这么多点，则进行min-batch点缩减
+const maxBatchSize = 15; // 设置最大的批次大小
+const reduceRatio = 1000; // 最大批次比例
 
 // 根据给定的中心点，将数据点分配到最近的聚类中心
 function assignPointsToClusters(data, centroids) {
     const clusters = new Array(centroids.length).fill().map(() => []);
 
-    data.forEach(item => {
+    data.forEach((item) => {
         let minDistance = Infinity;
         let closestCentroidIndex = -1;
         centroids.forEach((centroid, index) => {
@@ -49,12 +48,15 @@ function assignPointsToClusters(data, centroids) {
 
 // 根据分配的聚类，更新聚类中心
 function updateCentroids(clusters) {
-    return clusters.map(cluster => {
-        const centroid = cluster.reduce((acc, item) => {
-            acc[0] += parseFloat(item[0]);
-            acc[1] += parseFloat(item[1]);
-            return acc;
-        }, [0, 0]);
+    return clusters.map((cluster) => {
+        const centroid = cluster.reduce(
+            (acc, item) => {
+                acc[0] += parseFloat(item[0]);
+                acc[1] += parseFloat(item[1]);
+                return acc;
+            },
+            [0, 0],
+        );
 
         return [centroid[0] / cluster.length, centroid[1] / cluster.length];
     });
@@ -64,8 +66,8 @@ function updateCentroids(clusters) {
 function centroidsNotUpdated(oldCentroids, newCentroids) {
     return oldCentroids.every((centroid, index) => {
         if (!centroid) {
-            console.error("无聚类中心", centroidsNotUpdated)
-            return []
+            console.error("无聚类中心", centroidsNotUpdated);
+            return [];
         }
         return centroid.every((coord, i) => coord === newCentroids[index][i]);
     });
@@ -121,7 +123,7 @@ function mergeClusters(centroids, clusters, epsilon) {
 
 function miniBatchReduce(data) {
     if (data.length < maxPointsInMinBatch) {
-        return data
+        return data;
     }
 
     const reducedData = [];
@@ -144,17 +146,16 @@ function miniBatchReduce(data) {
     return reducedData;
 }
 
-
 // K均值聚类算法
 function kMeans(data, k = 4, epsilon = 100, maxIterations = 100) {
     if (!data.length) {
-        return []
+        return [];
     }
     // 固定选择初始聚类中心
     let centroids = initializeCentroids(data, k);
 
     // Mini-batch点缩减
-    let reducedData = miniBatchReduce(data)
+    let reducedData = miniBatchReduce(data);
     // let reducedData = data
 
     let iterations = 0;
@@ -172,7 +173,6 @@ function kMeans(data, k = 4, epsilon = 100, maxIterations = 100) {
     clusters = assignPointsToClusters(data, centroids);
     // 合并距离在 epsilon 以内的簇
     const mergedClusters = mergeClusters(centroids, clusters, epsilon);
-
 
     return mergedClusters;
 }
@@ -229,42 +229,44 @@ function kMeans(data, k = 4, epsilon = 100, maxIterations = 100) {
 // // 优化5：算法优化
 function mapKmens(visibleData, k = 4, epsilon = 100) {
     // 获取纯GPS信息
-    const gpsData = visibleData.map(item => item.gps || item);
+    const gpsData = visibleData.map((item) => item.gps || item);
 
     // 使用 kMeans 进行聚类
     const clusteredGps = kMeans(gpsData, k, epsilon);
 
     // 构建一个 Map 来存储和查找 GPS 数据
     const gpsMap = new Map();
-    visibleData.forEach(item => {
-        const key = item.gps.join(',');
+    visibleData.forEach((item) => {
+        const key = item.gps.join(",");
         if (!gpsMap.has(key)) {
             gpsMap.set(key, []);
         }
         gpsMap.get(key).push(item);
     });
 
-    const taskKey = Math.random().toString().substring(2)
+    const taskKey = Math.random().toString().substring(2);
 
     // 将聚类结果与原始数据点对应起来
-    const clusteredData = clusteredGps.map(cluster => {
-        return cluster.map(gps => {
-            const key = gps.join(',');
-            const items = gpsMap.get(key) || [];
-            const item = items.find(i => i.taskKey !== taskKey);
-            if (item) {
-                item.taskKey = taskKey;
-                return item;
-            }
-            return null;
-        }).filter(item => item !== null); // 过滤掉 null 值
+    const clusteredData = clusteredGps.map((cluster) => {
+        return cluster
+            .map((gps) => {
+                const key = gps.join(",");
+                const items = gpsMap.get(key) || [];
+                const item = items.find((i) => i.taskKey !== taskKey);
+                if (item) {
+                    item.taskKey = taskKey;
+                    return item;
+                }
+                return null;
+            })
+            .filter((item) => item !== null); // 过滤掉 null 值
     });
 
     // 计算每个聚类的中心点并返回结果
     const result = clusteredData
-        .filter(cluster => cluster.length > 0)
-        .map(cluster => {
-            const pointsGps = cluster.map(item => item.gps);
+        .filter((cluster) => cluster.length > 0)
+        .map((cluster) => {
+            const pointsGps = cluster.map((item) => item.gps);
             const center = calculateCentroid(pointsGps);
             return {
                 center,

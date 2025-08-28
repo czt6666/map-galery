@@ -1,17 +1,14 @@
 // 合并K均值聚类算法
 
-
 // 计算两个经纬度点之间的距离（单位：米）
 function haversineDistance(lat1, lon1, lat2, lon2) {
     const R = 6371e3; // 地球半径（米）
-    const φ1 = lat1 * Math.PI / 180; // 纬度1（弧度）
-    const φ2 = lat2 * Math.PI / 180; // 纬度2（弧度）
-    const Δφ = (lat2 - lat1) * Math.PI / 180; // 两点纬度之差（弧度）
-    const Δλ = (lon2 - lon1) * Math.PI / 180; // 两点经度之差（弧度）
+    const φ1 = (lat1 * Math.PI) / 180; // 纬度1（弧度）
+    const φ2 = (lat2 * Math.PI) / 180; // 纬度2（弧度）
+    const Δφ = ((lat2 - lat1) * Math.PI) / 180; // 两点纬度之差（弧度）
+    const Δλ = ((lon2 - lon1) * Math.PI) / 180; // 两点经度之差（弧度）
 
-    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-        Math.cos(φ1) * Math.cos(φ2) *
-        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
     const distance = R * c;
@@ -31,7 +28,7 @@ function euclideanDistance(point1, point2) {
 function assignPointsToClusters(data, centroids) {
     const clusters = new Array(centroids.length).fill().map(() => []);
 
-    data.forEach(point => {
+    data.forEach((point) => {
         let minDistance = Infinity;
         let closestCentroidIndex = -1;
         centroids.forEach((centroid, index) => {
@@ -49,12 +46,15 @@ function assignPointsToClusters(data, centroids) {
 
 // 根据分配的聚类，更新聚类中心
 function updateCentroids(clusters) {
-    return clusters.map(cluster => {
-        const centroid = cluster.reduce((acc, point) => {
-            acc[0] += point[0];
-            acc[1] += point[1];
-            return acc;
-        }, [0, 0]);
+    return clusters.map((cluster) => {
+        const centroid = cluster.reduce(
+            (acc, point) => {
+                acc[0] += point[0];
+                acc[1] += point[1];
+                return acc;
+            },
+            [0, 0],
+        );
 
         return [centroid[0] / cluster.length, centroid[1] / cluster.length];
     });
@@ -122,7 +122,7 @@ function kMeans(data, k, epsilon = 100, maxIterations = 100) {
 
     let iterations = 0;
     let oldCentroids;
-    let clusters
+    let clusters;
 
     // 迭代更新聚类中心
     do {
@@ -139,24 +139,24 @@ function kMeans(data, k, epsilon = 100, maxIterations = 100) {
 }
 
 function mapKmens(visibleData, k = 4, epsilon) {
-    const gpsData = visibleData.map(item => item.gps)
+    const gpsData = visibleData.map((item) => item.gps);
 
     // 进行聚类
     const clusters = kMeans(gpsData, k, epsilon);
 
     const result = clusters
-        .filter(item => item.length)
-        .map(cluster => {
+        .filter((item) => item.length)
+        .map((cluster) => {
             if (!cluster.length) {
-                return null
+                return null;
             }
-            const center = calculateCentroid(cluster)
+            const center = calculateCentroid(cluster);
             return {
                 center,
                 gpsInfo: cluster,
-            }
-        })
-    return result
+            };
+        });
+    return result;
 }
 
 // 示例用法

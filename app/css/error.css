@@ -23,11 +23,11 @@
 
 .error .reason span {
     font-size: 18px;
-    color: #EE2C2C;
+    color: #ee2c2c;
 }
 
 .err-side {
     width: 0px;
     height: 100%;
-    background-color: #FF4040;
+    background-color: #ff4040;
 }
