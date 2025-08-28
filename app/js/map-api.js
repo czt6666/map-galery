@@ -1,10 +1,10 @@
 window._AMapSecurityConfig = {
-    securityJsCode: AmapConfig.securityJsCode
+    securityJsCode: AmapConfig.securityJsCode,
 };
 
 // 添加控件
 function addControl(map) {
-    AMap.plugin(['AMap.Scale', 'AMap.MapType'], function () {
+    AMap.plugin(["AMap.Scale", "AMap.MapType"], function () {
         const scale = new AMap.Scale();
         map.addControl(scale);
         map.addControl(new AMap.MapType());
@@ -32,7 +32,7 @@ function getVisibleVerticalDistance(map) {
 // 获取可见区域的数据
 function getVisibleData(map, ImageData) {
     const bounds = map.getBounds();
-    const visibleData = ImageData.filter(img => bounds.contains(img.gps || img));
+    const visibleData = ImageData.filter((img) => bounds.contains(img.gps || img));
     return visibleData;
 }
 
@@ -47,7 +47,7 @@ function clearAllCircleMarkers(map) {
 
 // 创建图片标记的 DOM 内容
 function createImageMarkerHtml(src, num) {
-    const fullPath = compensataPath(src)
+    const fullPath = compensataPath(src);
     return `<div class="imgmark" style="background-image: url('${fullPath}');"><span>${num}</span></div>`;
 }
 
@@ -56,11 +56,11 @@ function addDefaultMarker(map, points) {
     points.forEach(function (point) {
         const marker = new AMap.Marker({
             position: point,
-            map: map
+            map: map,
         });
 
         // 鼠标悬浮
-        marker.dom.addEventListener('mouseover', function () {
+        marker.dom.addEventListener("mouseover", function () {
             console.log(point);
         });
     });
@@ -80,7 +80,7 @@ function addCricleMarker(map, points) {
             fillColor: "rgba(0,0,255,1)",
             fillOpacity: 0.5,
             zIndex: 10,
-            cursor: "pointer"
+            cursor: "pointer",
         });
         map.add(circleMarker);
     });
@@ -88,57 +88,63 @@ function addCricleMarker(map, points) {
 
 // 添加图片标记
 function addImageMarker(map, marks) {
-    map.clearMap()
-    marks.forEach(mark => {
-        const content = createImageMarkerHtml(mark.src, mark.num)
+    map.clearMap();
+    marks.forEach((mark) => {
+        const [gcjLon, gcjLat] = wgs84togcj02(mark.position[0], mark.position[1]);
+        const content = createImageMarkerHtml(mark.src, mark.num);
         const marker = new AMap.Marker({
             content,
-            position: mark.position, // 基点位置
-            offset: new AMap.Pixel(-25, -25) // 相对于基点的偏移位置
+            position: [gcjLon, gcjLat], // 基点位置
         });
         map.add(marker);
 
-        marker.dom.addEventListener('click', function () {
+        marker.dom.addEventListener("click", function () {
             // 点击了图片标记
-            clickImageMark(mark.rawData)
+            clickImageMark(mark.rawData);
         });
-    })
+
+        // const circle = new AMap.Circle({
+        //     center: [gcjLon, gcjLat],
+        //     radius: 5, // 单位：米
+        //     fillColor: "red",
+        //     fillOpacity: 1,
+        //     strokeWeight: 0,
+        // });
+        // map.add(circle);
+    });
 }
 
 // 绘制可见点
 function drawVisiblePoints(map, visibleData) {
-    const visiblePoints = visibleData.map(item => item.gps || item)
+    const visiblePoints = visibleData.map((item) => item.gps || item);
     addDefaultMarker(map, visiblePoints);
 }
 
 // 绘制簇中心点
 function drawClusterPoints(map, clusteredData) {
-    const clusterPoints = clusteredData.map(item => item.center || item)
+    const clusterPoints = clusteredData.map((item) => item.center || item);
     addCricleMarker(map, clusterPoints);
 }
 
 // 绘制照片点
 function drawPhotoPoints(map, clusteredData) {
     // 加工marks数组
-    const marks = clusteredData.map(cluster => {
+    const marks = clusteredData.map((cluster) => {
         return {
             position: cluster.center,
             num: cluster.imgsInfo.length,
             src: cluster.imgsInfo[0].imgSrc, // 选择有代表性照片
             rawData: cluster.imgsInfo,
-        }
-    })
-    addImageMarker(map, marks)
+        };
+    });
+    addImageMarker(map, marks);
 }
 
 // 聚类点
 function drawClusterResult(map, clusterPoints, checkTimer = true) {
     const clusterStartTime2 = performance.now();
     map.plugin(["AMap.MarkerCluster"], function () {
-        cluster = new AMap.MarkerCluster(
-            map,
-            clusterPoints
-        );
+        cluster = new AMap.MarkerCluster(map, clusterPoints);
     });
     const clusterEndTime2 = performance.now();
     const clusterExecutionTime2 = clusterEndTime2 - clusterStartTime2;
@@ -161,4 +167,45 @@ function drawMassivePoints(map, points) {
         style: style, //设置样式对象
     });
     massMarks.setMap(map);
+}
+
+// 判断是否在中国境内
+function outOfChina(lon, lat) {
+    return lon < 72.004 || lon > 137.8347 || lat < 0.8293 || lat > 55.8271;
+}
+
+function transformLat(x, y) {
+    let ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+    ret += ((20.0 * Math.sin(6.0 * x * Math.PI) + 20.0 * Math.sin(2.0 * x * Math.PI)) * 2.0) / 3.0;
+    ret += ((20.0 * Math.sin(y * Math.PI) + 40.0 * Math.sin((y / 3.0) * Math.PI)) * 2.0) / 3.0;
+    ret += ((160.0 * Math.sin((y / 12.0) * Math.PI) + 320 * Math.sin((y * Math.PI) / 30.0)) * 2.0) / 3.0;
+    return ret;
+}
+
+function transformLon(x, y) {
+    let ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+    ret += ((20.0 * Math.sin(6.0 * x * Math.PI) + 20.0 * Math.sin(2.0 * x * Math.PI)) * 2.0) / 3.0;
+    ret += ((20.0 * Math.sin(x * Math.PI) + 40.0 * Math.sin((x / 3.0) * Math.PI)) * 2.0) / 3.0;
+    ret += ((150.0 * Math.sin((x / 12.0) * Math.PI) + 300.0 * Math.sin((x / 30.0) * Math.PI)) * 2.0) / 3.0;
+    return ret;
+}
+
+// WGS84 -> GCJ-02
+function wgs84togcj02(lon, lat) {
+    if (outOfChina(lon, lat)) {
+        return [lon, lat];
+    }
+    const a = 6378245.0; // 长半轴
+    const ee = 0.00669342162296594323; // 偏心率平方
+    let dLat = transformLat(lon - 105.0, lat - 35.0);
+    let dLon = transformLon(lon - 105.0, lat - 35.0);
+    const radLat = (lat / 180.0) * Math.PI;
+    let magic = Math.sin(radLat);
+    magic = 1 - ee * magic * magic;
+    const sqrtMagic = Math.sqrt(magic);
+    dLat = (dLat * 180.0) / (((a * (1 - ee)) / (magic * sqrtMagic)) * Math.PI);
+    dLon = (dLon * 180.0) / ((a / sqrtMagic) * Math.cos(radLat) * Math.PI);
+    const mgLat = lat + dLat;
+    const mgLon = lon + dLon;
+    return [mgLon, mgLat];
 }
