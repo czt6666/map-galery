@@ -1,0 +1,272 @@
+@charset "UTF-8";
+.sidebar {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: 70px;
+  height: 100vh;
+  background-color: #f0f4f9;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  z-index: 200;
+  padding: 0 var(--nav-padding-mid);
+  transition: width var(--animation-timebtn-mid);
+  /* 头部控制栏 */
+  /* 中部下部被隐藏 */
+  /* 中部导航栏 */
+  /* 底部内容区 */
+}
+.sidebar .top-ctrl {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.sidebar .top-ctrl .sidebtn {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+  margin: 15px 0 0 9px;
+  border-radius: 1000px;
+  background-size: 16px 16px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.sidebar .top-ctrl .sidebtn b {
+  position: absolute;
+  display: none;
+  top: 45px;
+  left: 20px;
+  transform: translateX(-50%);
+  height: 25px;
+  line-height: 25px;
+  padding: 0 5px;
+  white-space: nowrap;
+  text-align: center;
+  font-weight: normal;
+  color: #fff;
+  border-radius: 5px;
+  background-color: #3c4043;
+  z-index: 210;
+}
+.sidebar .top-ctrl .fullbtn {
+  display: none;
+  background-image: url("../../img/full.svg");
+}
+.sidebar .top-ctrl .menubtn {
+  background-image: url("../../img/menu.svg");
+}
+.sidebar .top-ctrl .hover:hover {
+  background-color: #e9edf2;
+}
+.sidebar .top-ctrl .hover:hover b {
+  display: block;
+}
+.sidebar .hid-cont {
+  display: none;
+}
+.sidebar .mid-nav {
+  width: 100%;
+}
+.sidebar .mid-nav .nav-cont {
+  display: flex;
+  flex-grow: var(--nav-padding-mid);
+  width: 100%;
+  height: 40px;
+  /* 导航图标默认 */
+  /* 导航图标被选中 */
+}
+.sidebar .mid-nav .nav-cont .navbtn {
+  position: relative;
+  flex: 1;
+  height: 40px;
+  line-height: 40px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  text-align: center;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 5;
+}
+.sidebar .mid-nav .nav-cont .navbtn::after {
+  position: absolute;
+  display: block;
+  content: "";
+  width: 20px;
+  height: 25px;
+  top: 15px;
+  z-index: 5;
+}
+.sidebar .mid-nav .nav-cont .timebtn {
+  background-color: var(--imgcont-defult-color);
+}
+.sidebar .mid-nav .nav-cont .locationbtn {
+  background-color: var(--imgcont-defult-color);
+}
+.sidebar .mid-nav .nav-cont .timebtn::after {
+  right: -20px;
+  background: radial-gradient(ellipse farthest-side at 100% 0, transparent 100%, var(--imgcont-defult-color) 0%);
+}
+.sidebar .mid-nav .nav-cont .locationbtn::after {
+  left: -20px;
+  background: radial-gradient(ellipse farthest-side at 0 0, transparent 100%, var(--imgcont-defult-color) 0%);
+}
+.sidebar .mid-nav .nav-cont .locationbtn.active::after {
+  background: radial-gradient(ellipse farthest-side at 0 0, transparent 100%, var(--imgcont-active-color) 0%);
+  z-index: 7;
+}
+.sidebar .mid-nav .nav-cont .timebtn.active::after {
+  background: radial-gradient(ellipse farthest-side at 100% 0, transparent 100%, var(--imgcont-active-color) 0%);
+  z-index: 7;
+}
+.sidebar .mid-nav .nav-cont .active {
+  background-color: var(--imgcont-active-color);
+  z-index: 7;
+}
+.sidebar .btm-cont {
+  width: 100%;
+  height: 0;
+  flex: 1;
+  background-color: var(--imgcont-active-color);
+  /* 城市全部信息 */
+}
+.sidebar .btm-cont .city-list {
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+}
+.sidebar .btm-cont .city-list > li {
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: var(--nav-padding-mid);
+}
+.sidebar .btm-cont .city-list .info {
+  padding-left: var(--nav-padding-mid);
+}
+.sidebar .btm-cont .city-list .imgs-list {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: var(--nav-padding-mid);
+  /* 展示更多按钮 */
+}
+.sidebar .btm-cont .city-list .imgs-list > li {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+}
+.sidebar .btm-cont .city-list .imgs-list > li img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sidebar .btm-cont .city-list .imgs-list > li:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #999;
+  color: #fff;
+  border: none;
+  border: 2px dashed #555;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.sidebar .btm-cont .city-list .imgs-list > li:last-child:hover {
+  background-color: #555;
+}
+.sidebar.active {
+  width: 40%;
+}
+.sidebar.active .menubtn {
+  background-image: url("../../img/close.svg");
+}
+.sidebar.active .fullbtn {
+  display: block;
+}
+.sidebar.active .hid-cont {
+  display: block;
+}
+.sidebar.full {
+  width: 80%;
+}
+.sidebar.full .menubtn {
+  background-image: url("../../img/close.svg");
+}
+.sidebar.full .fullbtn {
+  display: block;
+  background-image: url("../../img/srink.svg");
+}
+.sidebar.full .hid-cont {
+  display: block;
+}
+.sidebar.full .city-list .imgs-list {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+@media only screen and (max-width: 939px) {
+  .sidebar.msidebar {
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 70px;
+    padding: 0;
+  }
+  .sidebar.msidebar .top-ctrl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: auto;
+    height: 70px;
+    z-index: 299;
+  }
+  .sidebar.msidebar .top-ctrl .menubtn {
+    background-color: #f0f4f9;
+    transition: all var(--animation-timebtn-mid);
+  }
+  .sidebar.msidebar .top-ctrl .sidebtn b {
+    visibility: hidden;
+  }
+  .sidebar.msidebar .top-ctrl .fullbtn {
+    visibility: hidden;
+  }
+  .sidebar.msidebar .hid-cont {
+    display: block;
+  }
+  .sidebar.msidebar .mid-nav {
+    display: block;
+    width: 100%;
+    height: 110px;
+    padding-top: 70px;
+    transform: translateX(-100%);
+    transition: transform var(--animation-timebtn-mid);
+    background-color: #a6a8ab;
+  }
+  .sidebar.msidebar .btm-cont {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 40px - 70px);
+    transform: translateX(-100%);
+    transition: transform var(--animation-timebtn-mid);
+  }
+  .sidebar.msidebar .btm-cont .city-list {
+    padding: var(--nav-padding-mid);
+  }
+  .sidebar.msidebar .btm-cont .city-list .imgs-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .sidebar.msidebar.active .menubtn {
+    background-color: #e9edf2;
+  }
+  .sidebar.msidebar.active .mid-nav {
+    transform: translateX(0%);
+  }
+  .sidebar.msidebar.active .btm-cont {
+    transform: translateX(0%);
+  }
+}
+
+/*# sourceMappingURL=sidebar.css.map */

@@ -40,7 +40,6 @@ jspm_packages/
 .stylelintcache
 .next/
 .nuxt/
-dist/
 build/
 .cache/
 .tmp/
@@ -139,4 +138,3 @@ Edgenesis/
 # === Whitelist: 必须进入 git ===
 !keep_this_folder/
 !important_config.json
-!css/dist/
