@@ -1,7 +1,7 @@
 // 本机:0 https服务器:1
-const COMPUTER = 1;
+const COMPUTER = 0;
 const PORT = 7105;
-const VERSION = "0.1.6";
+const VERSION = "0.2.0";
 
 const AmapConfig = {
     key: "cace0c9b67dbbaebc5f2d68d371ccfdf",
