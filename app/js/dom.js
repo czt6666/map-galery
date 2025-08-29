@@ -20,4 +20,6 @@ const dom = {
     // 错误页
     error: document.querySelector(".error"),
     main: document.querySelector(".main"),
+    // loading 遮罩
+    loadingMask: document.getElementById("loadingMask"),
 };

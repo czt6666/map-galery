@@ -40,13 +40,6 @@ function addMapEvent(map, ImageData) {
         const zoom = map.getZoom();
         console.log(`    // lng:   ${lng}   lat:   ${lat}   zoom:   ${zoom}  `);
     });
-
-    // 加载完成揭下面罩
-    map.on("complete", function () {
-        setTimeout(() => {
-            loadingmask.style.display = "none";
-        }, 1);
-    });
 }
 
 // 获取 epsilon 值

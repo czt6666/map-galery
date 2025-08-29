@@ -4,7 +4,7 @@ const COMPUTER = 0;
 const config = {
     COMPUTER,
     version: "0.2.0",
-    PORT: 7105,
+    PORT: 7106,
     HOST: "127.0.0.1",
     redis: {
         use: false,
@@ -28,8 +28,8 @@ const config = {
     // 主机 mysql 账号 密码
     mysql: {
         port: 3307,
-        user: "map_gallery",
-        password: "MPjb5WSADFEBRk8C",
+        user: "root",
+        password: "123456",
         database: "map_gallery",
     },
 };

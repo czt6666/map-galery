@@ -43,7 +43,7 @@ function downloadImg(src, name) {
 // 更新图片
 function updateImage(index) {
     if (0 <= index && index < CURRENTSHOWIMGS.length) {
-        const src = compensataPath(CURRENTSHOWIMGS[index].imgSrc);
+        const src = CURRENTSHOWIMGS[index].imgSrc;
         CurImgIndex = index;
         dom.pop_img.src = src;
     }
@@ -52,14 +52,14 @@ function updateImage(index) {
 // 预加载照片
 function preloadImage(index) {
     if (0 <= index && index < CURRENTSHOWIMGS.length) {
-        const src = compensataPath(CURRENTSHOWIMGS[index].imgSrc);
+        const src = CURRENTSHOWIMGS[index].imgSrc;
         const img = new Image();
         img.src = src;
     }
 }
 
 // 根据索引和动作判断 是否要隐藏按钮
-function toggoButtonByIndex(index, lastAction = "none") {
+function togoButtonByIndex(index, lastAction = "none") {
     // 判断一阶
     if (index >= CURRENTSHOWIMGS.length - 1) {
         hiddenButton("right");

@@ -47,8 +47,7 @@ function clearAllCircleMarkers(map) {
 
 // 创建图片标记的 DOM 内容
 function createImageMarkerHtml(src, num) {
-    const fullPath = compensataPath(src);
-    return `<div class="imgmark" style="background-image: url('${fullPath}');"><span>${num}</span></div>`;
+    return `<div class="imgmark" style="background-image: url('${src}');"><span>${num}</span></div>`;
 }
 
 // 添加 DefaultMarker

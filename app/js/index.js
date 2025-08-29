@@ -28,9 +28,13 @@ async function main() {
             throw new Error("获取数据失败");
         }
 
+        // 加载完成揭下面罩
+        handleLoadingEnd();
+
         // 替换 gps
         const transImageData = ImageData.map((item) => ({
             ...item,
+            imgSrc: compensatePath(item.imgSrc),
             gps: wgs84togcj02(item.gps),
         }));
 
@@ -51,3 +55,7 @@ async function main() {
 }
 
 main();
+
+function handleLoadingEnd() {
+    dom.loadingMask.style.display = "none";
+}

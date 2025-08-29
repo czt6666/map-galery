@@ -10,7 +10,7 @@ function initPopup() {
 function initButton(index) {
     showButton("left");
     showButton("right");
-    toggoButtonByIndex(index);
+    togoButtonByIndex(index);
 }
 
 // 开启弹窗
@@ -33,7 +33,7 @@ function closePopup() {
 
 // 下载当前照片
 function downloadCurrntImg() {
-    const src = compensataPath(CURRENTSHOWIMGS[CurImgIndex].imgSrc);
+    const src = CURRENTSHOWIMGS[CurImgIndex].imgSrc;
     // 获取文件名
     const filename = src.split("/").pop();
     downloadImg(src, filename);
@@ -43,7 +43,7 @@ function downloadCurrntImg() {
 function playNextPhoto() {
     const index = CurImgIndex;
     // 左右按钮的隐藏
-    toggoButtonByIndex(index, "next");
+    togoButtonByIndex(index, "next");
     // 展示下一张
     updateImage(index + 1);
     // 预加载下下张
@@ -53,7 +53,7 @@ function playNextPhoto() {
 // 播放上一张
 function playLastPhoto() {
     const index = CurImgIndex;
-    toggoButtonByIndex(index, "last");
+    togoButtonByIndex(index, "last");
     updateImage(index - 1);
     preloadImage(index - 2);
 }

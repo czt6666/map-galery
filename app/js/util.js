@@ -1,5 +1,6 @@
-function compensataPath(src) {
-    return src;
+function compensatePath(src) {
+    return COMPUTER ? src.replace("http://127.0.0.1", "https://czt666.cn") : src;
+
     return `${adjustFileLocation}${src.replace(/ ^\.\//, "")}`;
 }
 

@@ -85,7 +85,7 @@ function creatMultipleImageBoxHtml(imgs, start, end) {
     let list = [];
     for (let i = start; i < end && i < imgs.length; i++) {
         // 补偿图片路径
-        const src = compensataPath(imgs[i].imgSrc);
+        const src = imgs[i].imgSrc;
         const li = creatImageBoxHtml(src);
         list.push(li);
     }
